@@ -11,7 +11,9 @@
 
 <style>
 
-/* ===== MODAL DOS AUTORES ===== */
+/* ===== MODAL ===== */
+
+/* ===== MODAL ===== */
 
 .modal{
     display:none;
@@ -33,8 +35,10 @@
     border:1px solid rgba(255,255,255,.08);
     border-radius:30px;
     padding:35px;
-    max-width:550px;
+    max-width:600px;
     width:100%;
+    max-height:85vh;
+    overflow-y:auto;
     position:relative;
     text-align:center;
     animation:fadeUp .4s ease;
@@ -42,29 +46,32 @@
 }
 
 .modal-content img{
-    width:240px;
-    height:240px;
+    width:180px;
+    height:250px;
     object-fit:cover;
-    border-radius:25px;
-    margin-bottom:25px;
+    border-radius:15px;
+    margin-bottom:20px;
     box-shadow:0 15px 40px rgba(0,0,0,.5);
 }
 
 .modal-content h2{
     color:var(--primary);
     margin-bottom:15px;
-    font-size:2rem;
+    font-size:1.6rem;
 }
 
 .modal-content p{
     color:var(--muted);
     line-height:1.8;
+    text-align:left;
+    font-size:0.95rem;
 }
 
 .close{
-    position:absolute;
-    top:15px;
-    right:20px;
+    position:sticky;
+    top:0;
+    float:right;
+    z-index:10;
     font-size:2.2rem;
     cursor:pointer;
     color:white;
@@ -75,7 +82,6 @@
     transform:scale(1.1);
     color:var(--primary);
 }
-
 *{
     margin:0;
     padding:0;
@@ -294,7 +300,6 @@ header{
     transform:scale(1.03);
 }
 
-/* Legenda da imagem lateral */
 .right figcaption{
     color: var(--muted);
     margin-top: 12px;
@@ -349,6 +354,57 @@ header{
 .info-card h3{
     margin-bottom:12px;
     color:var(--primary);
+}
+
+/* ===== SEÇÃO DE OBRAS ===== */
+
+.autor-section{
+    margin-bottom:50px;
+}
+
+.autor-section h3{
+    font-size:1.8rem;
+    color:var(--secondary);
+    margin-bottom:25px;
+    padding-bottom:10px;
+    border-bottom:2px solid rgba(255,255,255,.1);
+}
+
+.obras-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+    gap:25px;
+}
+
+.obra-card{
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:18px;
+    padding:15px;
+    text-align:center;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.obra-card:hover{
+    transform:translateY(-8px);
+    background:rgba(255,255,255,.08);
+    border-color:var(--primary);
+}
+
+.obra-card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+    border-radius:12px;
+    margin-bottom:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+.obra-card h4{
+    color:var(--text);
+    font-size:.95rem;
+    line-height:1.3;
 }
 
 /* ===== TIMELINE ===== */
@@ -432,6 +488,15 @@ footer{
         display:flex;
     }
 
+    .obras-grid{
+        grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+        gap:15px;
+    }
+
+    .obra-card img{
+        height:160px;
+    }
+
 }
 
 </style>
@@ -454,6 +519,7 @@ footer{
 <button onclick="showContent('caracteristicas')">Características</button>
 <button onclick="showContent('prosa')">Prosa</button>
 <button onclick="showContent('poesia')">Poesia</button>
+<button onclick="showContent('obras')">Obras</button>
 <button onclick="showContent('temas')">Temas</button>
 <button onclick="showContent('diferenca')">Diferenças</button>
 <button onclick="showContent('legado')">Legado</button>
@@ -484,8 +550,8 @@ ferramenta de crítica social, análise psicológica e valorização da identida
 </p>
 
 <figure>
-<img src="https://empreendedor.com.br/wp-content/uploads/2022/02/abaporu-tarsila.png" alt="Pintura Abaporu de Tarsila do Amaral - obra icônica do Modernismo brasileiro que inspirou o Manifesto Antropofágico">
-<figcaption>Abaporu (1928) - Tarsila do Amaral. Obra que inspirou o Manifesto Antropofágico.</figcaption>
+<img src="./uploads/capa.jpeg" alt="Banner da Segunda Geração do Modernismo Brasileiro com os principais autores do período: Graciliano Ramos, Rachel de Queiroz, Jorge Amado, José Lins do Rego, Drummond, Cecília Meireles e Vinícius de Moraes">
+<figcaption>Segunda Geração Modernista (1930-1945) - Os principais autores que consolidaram o Modernismo no Brasil.</figcaption>
 </figure>
 
 </div>
@@ -553,7 +619,7 @@ críticas e voltadas para a realidade do país.
 
 </section>
 
-<!-- MODAL DOS AUTORES -->
+<!-- MODAL -->
 
 <div class="modal" id="authorModal">
 
@@ -561,7 +627,7 @@ críticas e voltadas para a realidade do país.
 
 <span class="close" onclick="closeModal()">&times;</span>
 
-<img id="modalImg" src="" alt="Imagem do autor ou tema selecionado" style="display:none;">
+<img id="modalImg" src="" alt="Imagem do autor ou obra selecionada" style="display:none;">
 
 <h2 id="modalTitle"></h2>
 
@@ -583,406 +649,246 @@ const contents = {
 
 intro:{
 title:"Introdução ao Modernismo",
-
 image:"https://institutoling.org.br/uploads/assets/1646312127-cartaz-anunciando-o-ultimo-dia-da-semana-de-arte-moderna-credito-reproducao.jpg",
 imageAlt:"Cartaz da Semana de Arte Moderna de 1922 - marco inicial do Modernismo no Brasil",
 imageCaption:"Cartaz do último dia da Semana de Arte Moderna de 1922.",
-
 text:`
-
-<p>
-O Modernismo revolucionou a arte brasileira ao romper com os modelos clássicos europeus.
-Os artistas buscavam uma arte mais livre, nacional e conectada com a realidade do Brasil.
-</p>
-
-<div class="highlight">
-A Semana de Arte Moderna de 1922 marcou o início dessa transformação cultural.
-</div>
-
-<p>
-Os escritores modernistas passaram a usar linguagem coloquial,
-humor, ironia e temas do cotidiano.
-</p>
-
-<p>
-<strong>Clique nos cards abaixo para saber mais sobre cada pilar do Modernismo:</strong>
-</p>
-
+<p>O Modernismo revolucionou a arte brasileira ao romper com os modelos clássicos europeus. Os artistas buscavam uma arte mais livre, nacional e conectada com a realidade do Brasil.</p>
+<div class="highlight">A Semana de Arte Moderna de 1922 marcou o início dessa transformação cultural.</div>
+<p>Os escritores modernistas passaram a usar linguagem coloquial, humor, ironia e temas do cotidiano.</p>
+<p><strong>Clique nos cards abaixo para saber mais sobre cada pilar do Modernismo:</strong></p>
 <div class="cards">
-
-<div class="info-card" onclick="openInfo('semana22')">
-<h3>Semana de 22</h3>
-<p>Marco inicial do Modernismo brasileiro.</p>
-</div>
-
-<div class="info-card" onclick="openInfo('ruptura')">
-<h3>Ruptura</h3>
-<p>Quebra dos modelos tradicionais da literatura.</p>
-</div>
-
-<div class="info-card" onclick="openInfo('nacionalismo')">
-<h3>Nacionalismo</h3>
-<p>Busca por identidade cultural brasileira.</p>
-</div>
-
-</div>
-`
+<div class="info-card" onclick="openInfo('semana22')"><h3>Semana de 22</h3><p>Marco inicial do Modernismo brasileiro.</p></div>
+<div class="info-card" onclick="openInfo('ruptura')"><h3>Ruptura</h3><p>Quebra dos modelos tradicionais da literatura.</p></div>
+<div class="info-card" onclick="openInfo('nacionalismo')"><h3>Nacionalismo</h3><p>Busca por identidade cultural brasileira.</p></div>
+</div>`
 },
 
 segunda:{
 title:"O que foi a Segunda Geração",
-
 image:"https://www.soliteratura.com.br/modernismo/imagens/graciliano2.jpg",
 imageAlt:"Retrato do escritor Graciliano Ramos - um dos principais autores da Segunda Geração Modernista",
 imageCaption:"Graciliano Ramos (1892-1953), um dos maiores nomes da Segunda Geração Modernista.",
-
 text:`
-
-<p>
-A Segunda Geração Modernista aconteceu entre 1930 e 1945 e ficou conhecida
-como a fase de consolidação do Modernismo.
-</p>
-
-<p>
-Os autores deixaram de focar apenas na inovação estética e passaram a produzir
-obras mais profundas e socialmente engajadas.
-</p>
-
-<div class="highlight">
-A literatura virou instrumento de denúncia social e análise da condição humana.
-</div>
-
+<p>A Segunda Geração Modernista aconteceu entre 1930 e 1945 e ficou conhecida como a fase de consolidação do Modernismo.</p>
+<p>Os autores deixaram de focar apenas na inovação estética e passaram a produzir obras mais profundas e socialmente engajadas.</p>
+<div class="highlight">A literatura virou instrumento de denúncia social e análise da condição humana.</div>
 <div class="timeline">
-
-<div class="timeline-item">
-<h4>1930</h4>
-<p>Ascensão da literatura regionalista e social.</p>
-</div>
-
-<div class="timeline-item">
-<h4>1937</h4>
-<p>Estado Novo fortalece censura e tensão política.</p>
-</div>
-
-<div class="timeline-item">
-<h4>1945</h4>
-<p>Fim da geração com novas tendências literárias.</p>
-</div>
-
-</div>
-`
+<div class="timeline-item"><h4>1930</h4><p>Ascensão da literatura regionalista e social.</p></div>
+<div class="timeline-item"><h4>1937</h4><p>Estado Novo fortalece censura e tensão política.</p></div>
+<div class="timeline-item"><h4>1945</h4><p>Fim da geração com novas tendências literárias.</p></div>
+</div>`
 },
 
 contexto:{
 title:"Contexto Histórico",
-
 image:"https://1.bp.blogspot.com/-L3W-0LrMZ0w/VvavwiMgvEI/AAAAAAAABXw/6UqkvxkMDw0PrKaA-9TK89TFvnlr2ydIg/s1600/getulio_vargas_6b_1.jpg",
 imageAlt:"Fotografia de Getúlio Vargas - presidente que marcou a Era Vargas durante a Segunda Geração Modernista",
 imageCaption:"Getúlio Vargas, presidente do Brasil durante o Estado Novo (1937-1945).",
-
 text:`
-
-<p>
-A Segunda Geração foi influenciada por crises políticas e econômicas.
-A quebra da Bolsa de Nova Iorque em 1929 afetou fortemente o Brasil.
-</p>
-
-<p>
-Ao mesmo tempo, o país vivia a Era Vargas, marcada por centralização política,
-censura e repressão.
-</p>
-
-<p>
-<strong>Clique nos cards para entender cada evento histórico:</strong>
-</p>
-
+<p>A Segunda Geração foi influenciada por crises políticas e econômicas. A quebra da Bolsa de Nova Iorque em 1929 afetou fortemente o Brasil.</p>
+<p>Ao mesmo tempo, o país vivia a Era Vargas, marcada por centralização política, censura e repressão.</p>
+<p><strong>Clique nos cards para entender cada evento histórico:</strong></p>
 <div class="cards">
-
-<div class="info-card" onclick="openInfo('crise29')">
-<h3>Crise de 1929</h3>
-<p>Desemprego e queda da economia cafeeira.</p>
-</div>
-
-<div class="info-card" onclick="openInfo('eravargas')">
-<h3>Era Vargas</h3>
-<p>Transformações políticas e sociais no Brasil.</p>
-</div>
-
-<div class="info-card" onclick="openInfo('guerra')">
-<h3>2ª Guerra</h3>
-<p>Influenciou temas de medo e insegurança.</p>
-</div>
-
-</div>
-`
+<div class="info-card" onclick="openInfo('crise29')"><h3>Crise de 1929</h3><p>Desemprego e queda da economia cafeeira.</p></div>
+<div class="info-card" onclick="openInfo('eravargas')"><h3>Era Vargas</h3><p>Transformações políticas e sociais no Brasil.</p></div>
+<div class="info-card" onclick="openInfo('guerra')"><h3>2ª Guerra</h3><p>Influenciou temas de medo e insegurança.</p></div>
+</div>`
 },
 
 caracteristicas:{
 title:"Características da Geração",
-
 image:"https://donoleari.com.br/wp-content/uploads/2022/01/os-retirantes-1.jpg",
 imageAlt:"Pintura Os Retirantes de Candido Portinari - retrata famílias fugindo da seca no Nordeste brasileiro",
 imageCaption:"Os Retirantes (1944) - Candido Portinari. Representação da seca e do êxodo nordestino.",
-
 text:`
-
-<p>
-A Segunda Geração Modernista apresentou amadurecimento literário,
-forte regionalismo e preocupação social.
-</p>
-
-<div class="highlight">
-Os autores retratavam seca, pobreza, desigualdade
-e conflitos psicológicos humanos.
-</div>
-
-<p>
-<strong>Clique nos cards para explorar cada característica:</strong>
-</p>
-
+<p>A Segunda Geração Modernista apresentou amadurecimento literário, forte regionalismo e preocupação social.</p>
+<div class="highlight">Os autores retratavam seca, pobreza, desigualdade e conflitos psicológicos humanos.</div>
+<p><strong>Clique nos cards para explorar cada característica:</strong></p>
 <div class="cards">
-
-<div class="info-card" onclick="openInfo('regionalismo')">
-<h3>Regionalismo</h3>
-<p>Foco no Nordeste brasileiro.</p>
-</div>
-
-<div class="info-card" onclick="openInfo('linguagem')">
-<h3>Linguagem</h3>
-<p>Mais simples e próxima da fala popular.</p>
-</div>
-
-<div class="info-card" onclick="openInfo('criticasocial')">
-<h3>Crítica Social</h3>
-<p>Denúncia da exploração e injustiça.</p>
-</div>
-
-<div class="info-card" onclick="openInfo('psicologico')">
-<h3>Psicológico</h3>
-<p>Análise profunda dos personagens.</p>
-</div>
-
-</div>
-`
+<div class="info-card" onclick="openInfo('regionalismo')"><h3>Regionalismo</h3><p>Foco no Nordeste brasileiro.</p></div>
+<div class="info-card" onclick="openInfo('linguagem')"><h3>Linguagem</h3><p>Mais simples e próxima da fala popular.</p></div>
+<div class="info-card" onclick="openInfo('criticasocial')"><h3>Crítica Social</h3><p>Denúncia da exploração e injustiça.</p></div>
+<div class="info-card" onclick="openInfo('psicologico')"><h3>Psicológico</h3><p>Análise profunda dos personagens.</p></div>
+</div>`
 },
 
 prosa:{
 title:"Autores da Prosa",
-
 image:"https://tse2.mm.bing.net/th/id/OIP.B-IkMs8mV4SgQWKE2w8wFwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
 imageAlt:"Retrato do escritor Jorge Amado - autor de Capitães da Areia e grande nome da prosa modernista",
 imageCaption:"Jorge Amado (1912-2001), um dos autores brasileiros mais traduzidos no mundo.",
-
 text:`
-
-<p>
-Os autores da prosa modernista exploraram problemas sociais brasileiros,
-principalmente no Nordeste. <strong>Clique nos cards para saber mais:</strong>
-</p>
-
+<p>Os autores da prosa modernista exploraram problemas sociais brasileiros, principalmente no Nordeste. <strong>Clique nos cards para saber mais:</strong></p>
 <div class="cards">
-
-<div class="info-card" onclick="openAuthor('graciliano')">
-<h3>Graciliano Ramos</h3>
-<p><strong>Vidas Secas</strong> e <strong>São Bernardo</strong>.
-Linguagem seca e crítica social.</p>
-</div>
-
-<div class="info-card" onclick="openAuthor('rachel')">
-<h3>Rachel de Queiroz</h3>
-<p><strong>O Quinze</strong>.
-Retratou a seca e a condição feminina.</p>
-</div>
-
-<div class="info-card" onclick="openAuthor('jorge')">
-<h3>Jorge Amado</h3>
-<p><strong>Capitães da Areia</strong>.
-Valorização da cultura popular.</p>
-</div>
-
-<div class="info-card" onclick="openAuthor('joselins')">
-<h3>José Lins do Rego</h3>
-<p><strong>Menino de Engenho</strong>.
-Decadência dos engenhos nordestinos.</p>
-</div>
-
-</div>
-`
+<div class="info-card" onclick="openAuthor('graciliano')"><h3>Graciliano Ramos</h3><p><strong>Vidas Secas</strong> e <strong>São Bernardo</strong>. Linguagem seca e crítica social.</p></div>
+<div class="info-card" onclick="openAuthor('rachel')"><h3>Rachel de Queiroz</h3><p><strong>O Quinze</strong>. Retratou a seca e a condição feminina.</p></div>
+<div class="info-card" onclick="openAuthor('jorge')"><h3>Jorge Amado</h3><p><strong>Capitães da Areia</strong>. Valorização da cultura popular.</p></div>
+<div class="info-card" onclick="openAuthor('joselins')"><h3>José Lins do Rego</h3><p><strong>Menino de Engenho</strong>. Decadência dos engenhos nordestinos.</p></div>
+</div>`
 },
 
 poesia:{
 title:"Autores da Poesia",
-
 image:"https://cdn.culturagenial.com/imagens/carlos-drummond-de-andrade-0-cke.jpg",
 imageAlt:"Retrato do poeta Carlos Drummond de Andrade - um dos maiores poetas da literatura brasileira",
 imageCaption:"Carlos Drummond de Andrade (1902-1987), um dos maiores poetas brasileiros.",
-
 text:`
-
-<p>
-A poesia da geração de 1930 tornou-se mais reflexiva,
-existencial e socialmente crítica. <strong>Clique nos cards para saber mais:</strong>
-</p>
-
+<p>A poesia da geração de 1930 tornou-se mais reflexiva, existencial e socialmente crítica. <strong>Clique nos cards para saber mais:</strong></p>
 <div class="cards">
+<div class="info-card" onclick="openAuthor('drummond')"><h3>Drummond</h3><p><strong>A Rosa do Povo</strong>. Ironia, crítica e cotidiano.</p></div>
+<div class="info-card" onclick="openAuthor('cecilia')"><h3>Cecília Meireles</h3><p><strong>Viagem</strong>. Musicalidade e reflexão filosófica.</p></div>
+<div class="info-card" onclick="openAuthor('vinicius')"><h3>Vinícius de Moraes</h3><p><strong>Sonetos e Baladas</strong>. Amor e musicalidade poética.</p></div>
+</div>
+<div class="highlight">A poesia aproximou literatura e cotidiano, criando textos mais humanos e universais.</div>`
+},
 
-<div class="info-card" onclick="openAuthor('drummond')">
-<h3>Drummond</h3>
-<p><strong>A Rosa do Povo</strong>.
-Ironia, crítica e cotidiano.</p>
+obras:{
+title:"Principais Obras",
+image:"https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg",
+imageAlt:"Capa do livro Vidas Secas de Graciliano Ramos - uma das obras mais importantes da Segunda Geração Modernista",
+imageCaption:"Vidas Secas (1938) - Graciliano Ramos. Um dos maiores clássicos da literatura brasileira.",
+text:`
+<p>Confira abaixo as principais obras de cada autor da Segunda Geração Modernista. <strong>Clique nas capas para saber mais sobre cada livro:</strong></p>
+
+<div class="autor-section">
+<h3>Graciliano Ramos</h3>
+<div class="obras-grid">
+<div class="obra-card" onclick="openObra('vidasecas')">
+<img src="https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg" alt="Capa do livro Vidas Secas de Graciliano Ramos">
+<h4>Vidas Secas (1938)</h4>
+</div>
+<div class="obra-card" onclick="openObra('saobernardo')">
+<img src="https://m.media-amazon.com/images/I/71p0FEdMVEL._AC_UF1000,1000_QL80_.jpg" alt="Capa do livro São Bernardo de Graciliano Ramos">
+<h4>São Bernardo (1934)</h4>
+</div>
+<div class="obra-card" onclick="openObra('angustia')">
+<img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364649791l/15703784.jpg" alt="Capa do livro Angústia de Graciliano Ramos">
+<h4>Angústia (1936)</h4>
+</div>
+<div class="obra-card" onclick="openObra('memorias')">
+<img src="https://m.media-amazon.com/images/I/71QJN4JwgVL._AC_UF1000,1000_QL80_.jpg" alt="Capa do livro Memórias do Cárcere de Graciliano Ramos">
+<h4>Memórias do Cárcere (1953)</h4>
+</div>
+</div>
 </div>
 
-<div class="info-card" onclick="openAuthor('cecilia')">
-<h3>Cecília Meireles</h3>
-<p><strong>Viagem</strong>.
-Musicalidade e reflexão filosófica.</p>
+<div class="autor-section">
+<h3>José Lins do Rego</h3>
+<div class="obras-grid">
+<div class="obra-card" onclick="openObra('meninoengenho')">
+<img src="https://m.media-amazon.com/images/I/71QJN4JwgVL._AC_UF1000,1000_QL80_.jpg" alt="Capa do livro Menino de Engenho de José Lins do Rego">
+<h4>Menino de Engenho (1932)</h4>
+</div>
+<div class="obra-card" onclick="openObra('doidinho')">
+<img src="https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg" alt="Capa do livro Doidinho de José Lins do Rego">
+<h4>Doidinho (1933)</h4>
+</div>
+<div class="obra-card" onclick="openObra('bangue')">
+<img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364649791l/15703784.jpg" alt="Capa do livro Banguê de José Lins do Rego">
+<h4>Banguê (1934)</h4>
+</div>
+<div class="obra-card" onclick="openObra('fogomorto')">
+<img src="https://m.media-amazon.com/images/I/71p0FEdMVEL._AC_UF1000,1000_QL80_.jpg" alt="Capa do livro Fogo Morto de José Lins do Rego">
+<h4>Fogo Morto (1943)</h4>
+</div>
+</div>
 </div>
 
-<div class="info-card" onclick="openAuthor('vinicius')">
-<h3>Vinícius de Moraes</h3>
-<p><strong>Sonetos e Baladas</strong>.
-Amor e musicalidade poética.</p>
+<div class="autor-section">
+<h3>Rachel de Queiroz</h3>
+<div class="obras-grid">
+<div class="obra-card" onclick="openObra('oquinze')">
+<img src="https://m.media-amazon.com/images/I/71Hs1a4p2KL._AC_UF1000,1000_QL80_.jpg" alt="Capa do livro O Quinze de Rachel de Queiroz">
+<h4>O Quinze (1930)</h4>
+</div>
+<div class="obra-card" onclick="openObra('joaomiguel')">
+<img src="https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg" alt="Capa do livro João Miguel de Rachel de Queiroz">
+<h4>João Miguel (1932)</h4>
+</div>
+<div class="obra-card" onclick="openObra('caminhopedras')">
+<img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364649791l/15703784.jpg" alt="Capa do livro Caminho de Pedras de Rachel de Queiroz">
+<h4>Caminho de Pedras (1937)</h4>
+</div>
+<div class="obra-card" onclick="openObra('mariamoura')">
+<img src="https://m.media-amazon.com/images/I/71p0FEdMVEL._AC_UF1000,1000_QL80_.jpg" alt="Capa do livro Memorial de Maria Moura de Rachel de Queiroz">
+<h4>Memorial de Maria Moura (1992)</h4>
+</div>
+</div>
 </div>
 
+<div class="autor-section">
+<h3>Jorge Amado</h3>
+<div class="obras-grid">
+<div class="obra-card" onclick="openObra('capitaesareia')">
+<img src="https://i0.wp.com/www.literalmenteuai.com.br/wp-content/uploads/2019/07/Capa-Capit%C3%A3es-de-Areia-Jorge-Amado.jpg?fit=791%2C1200&ssl=1" alt="Capa do livro Capitães da Areia de Jorge Amado">
+<h4>Capitães da Areia (1937)</h4>
+</div>
+<div class="obra-card" onclick="openObra('gabriela')">
+<img src="https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg" alt="Capa do livro Gabriela, Cravo e Canela de Jorge Amado">
+<h4>Gabriela, Cravo e Canela (1958)</h4>
+</div>
+<div class="obra-card" onclick="openObra('donaflor')">
+<img src="https://m.media-amazon.com/images/I/71Hs1a4p2KL._AC_UF1000,1000_QL80_.jpg" alt="Capa do livro Dona Flor e Seus Dois Maridos de Jorge Amado">
+<h4>Dona Flor e Seus Dois Maridos (1966)</h4>
+</div>
+<div class="obra-card" onclick="openObra('tieta')">
+<img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364649791l/15703784.jpg" alt="Capa do livro Tieta do Agreste de Jorge Amado">
+<h4>Tieta do Agreste (1977)</h4>
+</div>
+</div>
 </div>
 
-<div class="highlight">
-A poesia aproximou literatura e cotidiano,
-criando textos mais humanos e universais.
-</div>
+<div class="highlight">Cada obra representa um aspecto fundamental da literatura brasileira, do regionalismo à crítica social, da análise psicológica à valorização cultural.</div>
 `
 },
 
 temas:{
 title:"Principais Temas",
-
 image:"https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg",
 imageAlt:"Capa do livro Vidas Secas de Graciliano Ramos - principal obra sobre a seca nordestina",
 imageCaption:"Vidas Secas (1938) - Graciliano Ramos. A obra mais emblemática sobre a seca no sertão.",
-
 text:`
-
-<p>
-Os temas da Segunda Geração refletiam as angústias sociais e existenciais do período.
-<strong>Clique nos cards para ver obras relacionadas a cada tema:</strong>
-</p>
-
+<p>Os temas da Segunda Geração refletiam as angústias sociais e existenciais do período. <strong>Clique nos cards para ver obras relacionadas a cada tema:</strong></p>
 <div class="cards">
-
-<div class="info-card" onclick="openTheme('seca')">
-<h3>Seca</h3>
-<p>Sobrevivência e sofrimento nordestino.</p>
+<div class="info-card" onclick="openTheme('seca')"><h3>Seca</h3><p>Sobrevivência e sofrimento nordestino.</p></div>
+<div class="info-card" onclick="openTheme('pobreza')"><h3>Pobreza</h3><p>Desigualdade e exclusão social.</p></div>
+<div class="info-card" onclick="openTheme('conflitos')"><h3>Conflitos</h3><p>Angústia e solidão humana.</p></div>
+<div class="info-card" onclick="openTheme('amor')"><h3>Amor</h3><p>Sentimentos e relações humanas.</p></div>
 </div>
-
-<div class="info-card" onclick="openTheme('pobreza')">
-<h3>Pobreza</h3>
-<p>Desigualdade e exclusão social.</p>
-</div>
-
-<div class="info-card" onclick="openTheme('conflitos')">
-<h3>Conflitos</h3>
-<p>Angústia e solidão humana.</p>
-</div>
-
-<div class="info-card" onclick="openTheme('amor')">
-<h3>Amor</h3>
-<p>Sentimentos e relações humanas.</p>
-</div>
-
-</div>
-
-<p>
-Os temas sociais conviviam com reflexões existenciais,
-criando uma literatura mais profunda.
-</p>
-`
+<p>Os temas sociais conviviam com reflexões existenciais, criando uma literatura mais profunda.</p>`
 },
 
 diferenca:{
 title:"Diferença entre 1ª e 2ª Geração",
-
 image:"https://cdn.pensador.com/img/authors/ma/ri/mario-de-andrade-l.jpg",
 imageAlt:"Retrato do escritor Mário de Andrade - principal nome da Primeira Geração Modernista",
 imageCaption:"Mário de Andrade (1893-1945), principal nome da Primeira Geração Modernista.",
-
 text:`
-
-<p>
-A Primeira Geração focava na ruptura estética e na experimentação artística.
-Já a Segunda Geração amadureceu o movimento.
-</p>
-
-<p>
-<strong>Clique nos cards para entender as diferenças:</strong>
-</p>
-
+<p>A Primeira Geração focava na ruptura estética e na experimentação artística. Já a Segunda Geração amadureceu o movimento.</p>
+<p><strong>Clique nos cards para entender as diferenças:</strong></p>
 <div class="cards">
-
-<div class="info-card" onclick="openInfo('primeirageracao')">
-<h3>1ª Geração</h3>
-<p>Revolução estética, ironia e liberdade artística.</p>
+<div class="info-card" onclick="openInfo('primeirageracao')"><h3>1ª Geração</h3><p>Revolução estética, ironia e liberdade artística.</p></div>
+<div class="info-card" onclick="openInfo('segundageracao')"><h3>2ª Geração</h3><p>Crítica social, regionalismo e análise psicológica.</p></div>
 </div>
-
-<div class="info-card" onclick="openInfo('segundageracao')">
-<h3>2ª Geração</h3>
-<p>Crítica social, regionalismo e análise psicológica.</p>
-</div>
-
-</div>
-
-<div class="highlight">
-Enquanto a primeira queria destruir modelos antigos,
-a segunda queria compreender e denunciar a realidade brasileira.
-</div>
-`
+<div class="highlight">Enquanto a primeira queria destruir modelos antigos, a segunda queria compreender e denunciar a realidade brasileira.</div>`
 },
 
 legado:{
 title:"Importância e Legado",
-
 image:"https://s3-media2.fl.yelpcdn.com/bphoto/BGc9-8jzqWZI9IxNRwalHw/o.jpg",
 imageAlt:"Fachada da Biblioteca Nacional do Brasil no Rio de Janeiro - guardiã do patrimônio literário brasileiro",
 imageCaption:"Biblioteca Nacional do Brasil, no Rio de Janeiro - guardiã do patrimônio literário nacional.",
-
 text:`
-
-<p>
-A Segunda Geração Modernista consolidou a literatura brasileira moderna
-e influenciou gerações futuras.
-</p>
-
-<p>
-<strong>Clique nos cards para descobrir mais sobre cada aspecto do legado:</strong>
-</p>
-
+<p>A Segunda Geração Modernista consolidou a literatura brasileira moderna e influenciou gerações futuras.</p>
+<p><strong>Clique nos cards para descobrir mais sobre cada aspecto do legado:</strong></p>
 <div class="cards">
-
-<div class="info-card" onclick="openInfo('classicos')">
-<h3>Clássicos</h3>
-<p>Produziu obras fundamentais da literatura nacional.</p>
+<div class="info-card" onclick="openInfo('classicos')"><h3>Clássicos</h3><p>Produziu obras fundamentais da literatura nacional.</p></div>
+<div class="info-card" onclick="openInfo('regionalismolegado')"><h3>Regionalismo</h3><p>Valorizou culturas e regiões brasileiras.</p></div>
+<div class="info-card" onclick="openInfo('criticaliteraria')"><h3>Crítica</h3><p>Fortaleceu a literatura social no Brasil.</p></div>
+<div class="info-card" onclick="openInfo('influencia')"><h3>Influência</h3><p>Inspirou escritores contemporâneos.</p></div>
 </div>
-
-<div class="info-card" onclick="openInfo('regionalismolegado')">
-<h3>Regionalismo</h3>
-<p>Valorizou culturas e regiões brasileiras.</p>
-</div>
-
-<div class="info-card" onclick="openInfo('criticaliteraria')">
-<h3>Crítica</h3>
-<p>Fortaleceu a literatura social no Brasil.</p>
-</div>
-
-<div class="info-card" onclick="openInfo('influencia')">
-<h3>Influência</h3>
-<p>Inspirou escritores contemporâneos.</p>
-</div>
-
-</div>
-
-<div class="highlight">
-Autores como Graciliano Ramos e Drummond tornaram-se referências eternas da cultura brasileira.
-</div>
-`
+<div class="highlight">Autores como Graciliano Ramos e Drummond tornaram-se referências eternas da cultura brasileira.</div>`
 }
 
 };
@@ -1042,7 +948,129 @@ text:"Vinícius de Moraes (1913-1980), conhecido como 'poetinha', uniu poesia e 
 
 };
 
-// ===== DADOS DOS TEMAS COM CAPAS DE OBRAS =====
+// ===== DADOS DETALHADOS DAS OBRAS =====
+
+const obrasDetalhes = {
+
+// GRACILIANO RAMOS
+vidasecas:{
+name:"Vidas Secas (1938)",
+image:"https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg",
+imageAlt:"Capa do livro Vidas Secas de Graciliano Ramos",
+text:"<strong>Autor:</strong> Graciliano Ramos<br><br><strong>Ano:</strong> 1938<br><br><strong>Sinopse:</strong> Obra-prima do regionalismo brasileiro, 'Vidas Secas' narra a saga de uma família de retirantes nordestinos — Fabiano, Sinhá Vitória, seus dois filhos e a cachorra Baleia — que fogem da seca em busca de sobrevivência. Com linguagem seca e direta, Graciliano expõe a desumanização causada pela miséria, a animalização dos personagens e a incapacidade de expressão diante da opressão social. A obra denuncia o abandono do sertanejo pelo poder público e transforma a seca em metáfora da condição humana."
+},
+
+saobernardo:{
+name:"São Bernardo (1934)",
+image:"https://m.media-amazon.com/images/I/71p0FEdMVEL._AC_UF1000,1000_QL80_.jpg",
+imageAlt:"Capa do livro São Bernardo de Graciliano Ramos",
+text:"<strong>Autor:</strong> Graciliano Ramos<br><br><strong>Ano:</strong> 1934<br><br><strong>Sinopse:</strong> Narrado em primeira pessoa por Paulo Honório, um homem de origem humilde que conquista a fazenda São Bernardo através de muito trabalho e ambição. O protagonista é obcecado por poder e posse, tratando pessoas como objetos. Ao se casar com Madalena, uma professora culta e humanitária, os conflitos entre visões de mundo opostas levam à tragédia. O romance explora temas como solidão, incapacidade afetiva e autodestruição pelo excesso de ambição."
+},
+
+angustia:{
+name:"Angústia (1936)",
+image:"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364649791l/15703784.jpg",
+imageAlt:"Capa do livro Angústia de Graciliano Ramos",
+text:"<strong>Autor:</strong> Graciliano Ramos<br><br><strong>Ano:</strong> 1936<br><br><strong>Sinopse:</strong> Um mergulho perturbador na mente de Luís da Silva, um funcionário público fracassado que vive atormentado por traumas do passado, inseguranças e obsessões. A narrativa psicológica acompanha a deterioração mental do protagonista, que desenvolve uma fixação doentia por sua vizinha Marina. Considerado um dos primeiros romances psicológicos brasileiros, a obra explora temas como solidão urbana, alienação, ressentimento social e a linha tênue entre sanidade e loucura."
+},
+
+memorias:{
+name:"Memórias do Cárcere (1953)",
+image:"https://m.media-amazon.com/images/I/71QJN4JwgVL._AC_UF1000,1000_QL80_.jpg",
+imageAlt:"Capa do livro Memórias do Cárcere de Graciliano Ramos",
+text:"<strong>Autor:</strong> Graciliano Ramos<br><br><strong>Ano:</strong> 1953 (póstumo)<br><br><strong>Sinopse:</strong> Relato autobiográfico do período em que Graciliano foi preso durante o Estado Novo, em 1936, sem acusação formal. A obra descreve as condições desumanas das prisões, a arbitrariedade do regime varguista e os encontros do escritor com outros presos políticos e criminosos comuns. Escrito com a lucidez característica do autor, o livro é um testemunho poderoso sobre liberdade, opressão e resistência."
+},
+
+// JOSÉ LINS DO REGO
+meninoengenho:{
+name:"Menino de Engenho (1932)",
+image:"https://m.media-amazon.com/images/I/71QJN4JwgVL._AC_UF1000,1000_QL80_.jpg",
+imageAlt:"Capa do livro Menino de Engenho de José Lins do Rego",
+text:"<strong>Autor:</strong> José Lins do Rego<br><br><strong>Ano:</strong> 1932<br><br><strong>Sinopse:</strong> Romance de estreia do autor, fortemente autobiográfico, que narra a infância de Carlos no engenho Santa Rosa, de propriedade de seu avô. Através do olhar do menino, o leitor conhece o universo dos engenhos nordestinos, as relações de poder entre senhores e trabalhadores, a cultura popular e as tradições locais. O livro mistura nostalgia e crítica social, revelando as contradições do sistema patriarcal."
+},
+
+doidinho:{
+name:"Doidinho (1933)",
+image:"https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg",
+imageAlt:"Capa do livro Doidinho de José Lins do Rego",
+text:"<strong>Autor:</strong> José Lins do Rego<br><br><strong>Ano:</strong> 1933<br><br><strong>Sinopse:</strong> Continuação de 'Menino de Engenho', este romance acompanha Carlos em sua experiência no internato, onde enfrenta a rigidez disciplinar e a dureza do sistema educacional tradicional. O apelido 'Doidinho' reflete o sentimento de inadequação do protagonista diante de um ambiente opressor que contrasta com a liberdade vivida no engenho."
+},
+
+bangue:{
+name:"Banguê (1934)",
+image:"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364649791l/15703784.jpg",
+imageAlt:"Capa do livro Banguê de José Lins do Rego",
+text:"<strong>Autor:</strong> José Lins do Rego<br><br><strong>Ano:</strong> 1934<br><br><strong>Sinopse:</strong> Terceiro romance do 'Ciclo da Cana-de-Açúcar', narra o retorno de Carlos ao engenho Santa Rosa, agora adulto e formado. O protagonista encontra a propriedade em decadência, simbolizando o declínio do sistema açucareiro tradicional. Incapaz de reverter a situação, Carlos testemunha a falência econômica e moral da aristocracia rural nordestina."
+},
+
+fogomorto:{
+name:"Fogo Morto (1943)",
+image:"https://m.media-amazon.com/images/I/71p0FEdMVEL._AC_UF1000,1000_QL80_.jpg",
+imageAlt:"Capa do livro Fogo Morto de José Lins do Rego",
+text:"<strong>Autor:</strong> José Lins do Rego<br><br><strong>Ano:</strong> 1943<br><br><strong>Sinopse:</strong> Considerada a obra-prima de José Lins do Rego, o romance apresenta três personagens centrais — o mestre José Amaro, o coronel Lula de Holanda e o capitão Vitorino Carneiro da Cunha — todos marcados pela frustração, decadência social e incapacidade de adaptação às mudanças. O título remete aos engenhos que pararam de produzir, simbolizando o fim de uma era. A obra oferece uma visão crítica e profunda das transformações do Nordeste."
+},
+
+// RACHEL DE QUEIROZ
+oquinze:{
+name:"O Quinze (1930)",
+image:"https://m.media-amazon.com/images/I/71Hs1a4p2KL._AC_UF1000,1000_QL80_.jpg",
+imageAlt:"Capa do livro O Quinze de Rachel de Queiroz",
+text:"<strong>Autora:</strong> Rachel de Queiroz<br><br><strong>Ano:</strong> 1930<br><br><strong>Sinopse:</strong> Romance de estreia, escrito quando a autora tinha apenas 19 anos. A obra retrata a grande seca de 1915 no Ceará, acompanhando a trajetória da família de retirantes de Chico Bento, que abandona sua terra em busca de sobrevivência. Paralelamente, acompanha-se a história de Conceição, uma professora que representa uma nova consciência feminina. O livro denuncia o abandono social dos pobres e contrasta as elites com os sertanejos."
+},
+
+joaomiguel:{
+name:"João Miguel (1932)",
+image:"https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg",
+imageAlt:"Capa do livro João Miguel de Rachel de Queiroz",
+text:"<strong>Autora:</strong> Rachel de Queiroz<br><br><strong>Ano:</strong> 1932<br><br><strong>Sinopse:</strong> A história de um homem pobre e solitário que é preso injustamente por um crime que não cometeu. Na cadeia, João Miguel reflete sobre sua condição e sobre as injustiças do sistema social. O romance explora temas como marginalização, solidão e a fragilidade do indivíduo diante do poder."
+},
+
+caminhopedras:{
+name:"Caminho de Pedras (1937)",
+image:"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364649791l/15703784.jpg",
+imageAlt:"Capa do livro Caminho de Pedras de Rachel de Queiroz",
+text:"<strong>Autora:</strong> Rachel de Queiroz<br><br><strong>Ano:</strong> 1937<br><br><strong>Sinopse:</strong> Romance político que aborda a militância de esquerda durante a Era Vargas. A história gira em torno de Roberto, um ativista que se envolve em movimentos de resistência, e Noemi, sua companheira. A obra explora conflitos ideológicos, repressão, lealdade e os dilemas entre causa política e vida pessoal."
+},
+
+mariamoura:{
+name:"Memorial de Maria Moura (1992)",
+image:"https://m.media-amazon.com/images/I/71p0FEdMVEL._AC_UF1000,1000_QL80_.jpg",
+imageAlt:"Capa do livro Memorial de Maria Moura de Rachel de Queiroz",
+text:"<strong>Autora:</strong> Rachel de Queiroz<br><br><strong>Ano:</strong> 1992<br><br><strong>Sinopse:</strong> Romance maduro que narra a história de Maria Moura, uma mulher forte que, após perder suas terras e sua família, forma um bando de cangaceiros no sertão nordestino. A protagonista desafia as convenções de gênero e comanda homens em um universo dominado pela violência. A obra discute poder, sexualidade feminina e sobrevivência."
+},
+
+// JORGE AMADO
+capitaesareia:{
+name:"Capitães da Areia (1937)",
+image:"https://i0.wp.com/www.literalmenteuai.com.br/wp-content/uploads/2019/07/Capa-Capit%C3%A3es-de-Areia-Jorge-Amado.jpg?fit=791%2C1200&ssl=1",
+imageAlt:"Capa do livro Capitães da Areia de Jorge Amado",
+text:"<strong>Autor:</strong> Jorge Amado<br><br><strong>Ano:</strong> 1937<br><br><strong>Sinopse:</strong> Um dos romances mais impactantes da literatura brasileira, narra a vida de um grupo de meninos abandonados que sobrevivem nas ruas de Salvador cometendo pequenos furtos. Liderados por Pedro Bala, os 'Capitães da Areia' enfrentam a violência policial, a fome e o preconceito social. A obra denuncia o abandono infantil, a desigualdade e a ausência de políticas públicas, humanizando personagens marginalizados."
+},
+
+gabriela:{
+name:"Gabriela, Cravo e Canela (1958)",
+image:"./uploads/dona-flor-e-seus-dois-maridos-jorge-amado.jpeg",
+imageAlt:"Capa do livro Gabriela, Cravo e Canela de Jorge Amado",
+text:"<strong>Autor:</strong> Jorge Amado<br><br><strong>Ano:</strong> 1958<br><br><strong>Sinopse:</strong> Ambientado na cidade de Ilhéus durante o auge do cacau, o romance conta a história de amor entre o árabe Nacib e a retirante Gabriela. Enquanto a cidade se moderniza, Gabriela representa a simplicidade e a liberdade. A obra celebra a cultura popular baiana, o sensualismo e o conflito entre tradição e progresso, com uma das personagens femininas mais icônicas da literatura nacional."
+},
+
+donaflor:{
+name:"Dona Flor e Seus Dois Maridos (1966)",
+image:"https://m.media-amazon.com/images/I/71Hs1a4p2KL._AC_UF1000,1000_QL80_.jpg",
+imageAlt:"Capa do livro Dona Flor e Seus Dois Maridos de Jorge Amado",
+text:"<strong>Autor:</strong> Jorge Amado<br><br><strong>Ano:</strong> 1966<br><br><strong>Sinopse:</strong> Misturando realismo e fantasia, o romance narra a história de Dona Flor, que após a morte de seu primeiro marido, o boêmio Vadinho, casa-se com o metódico farmacêutico Teodoro. Vadinho retorna como fantasma, criando um triângulo amoroso inusitado. A obra explora desejos femininos, moralidade e a cultura baiana com humor e sensualidade."
+},
+
+tieta:{
+name:"Tieta do Agreste (1977)",
+image:"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364649791l/15703784.jpg",
+imageAlt:"Capa do livro Tieta do Agreste de Jorge Amado",
+text:"<strong>Autor:</strong> Jorge Amado<br><br><strong>Ano:</strong> 1977<br><br><strong>Sinopse:</strong> Tieta, expulsa de casa pelo pai na juventude, retorna rica e misteriosa à sua cidade natal no interior da Bahia. Sua volta provoca transformações na pacata Santana do Agreste, revelando hipocrisias, ambições e segredos. O romance aborda temas como sexualidade feminina, progresso versus tradição, e a complexidade das relações familiares."
+}
+
+};
+
+// ===== DADOS DOS TEMAS =====
 
 const themes = {
 
@@ -1076,114 +1104,29 @@ text:"O amor ganhou contornos mais complexos e humanos na Segunda Geração. 'Vi
 
 };
 
-// ===== DADOS DOS CARDS INFORMATIVOS (SEM IMAGEM) =====
+// ===== DADOS DOS CARDS INFORMATIVOS =====
 
 const infos = {
 
-// ===== INTRODUÇÃO =====
-
-liberdade:{
-name:"Liberdade Artística",
-text:"A liberdade artística foi um dos pilares do Modernismo. Os escritores da Segunda Geração abandonaram as regras rígidas da métrica e da rima na poesia, e na prosa romperam com a estrutura linear tradicional. Essa liberdade permitiu que cada autor desenvolvesse seu estilo único, como a linguagem seca e direta de Graciliano Ramos ou o lirismo musical de Cecília Meireles."
-},
-
-identidade:{
-name:"Identidade Nacional",
-text:"A busca por uma identidade genuinamente brasileira foi central no Modernismo. Na Segunda Geração, isso se manifestou no regionalismo, com autores retratando diferentes realidades do país — o sertão nordestino, os engenhos de cana, as ruas de Salvador. Essa valorização do local e do popular ajudou a construir uma literatura que refletia a diversidade cultural do Brasil."
-},
-
-critica:{
-name:"Crítica e Denúncia",
-text:"A literatura da Segunda Geração Modernista assumiu um forte papel de crítica social. Os autores denunciavam a pobreza, a seca, a exploração dos trabalhadores e as desigualdades regionais. Obras como 'Vidas Secas' e 'Capitães da Areia' expuseram problemas que a sociedade preferia ignorar, transformando a literatura em instrumento de conscientização e mudança."
-},
-
-semana22:{
-name:"Semana de Arte Moderna de 1922",
-text:"Realizada no Theatro Municipal de São Paulo nos dias 13, 15 e 17 de fevereiro de 1922, a Semana de Arte Moderna foi o marco inicial do Modernismo brasileiro. Reuniu artistas como Mário de Andrade, Oswald de Andrade, Anita Malfatti e Villa-Lobos. O evento chocou o público conservador com propostas inovadoras que rompiam com os padrões acadêmicos europeus."
-},
-
-ruptura:{
-name:"Ruptura com a Tradição",
-text:"A ruptura modernista significou o abandono dos modelos estéticos do século XIX, como o Parnasianismo na poesia e o Realismo na prosa. Os autores passaram a usar linguagem coloquial, versos livres, ironia e experimentação formal. Na Segunda Geração, essa ruptura já estava consolidada, permitindo que os escritores se concentrassem em temas sociais e existenciais mais profundos."
-},
-
-nacionalismo:{
-name:"Nacionalismo Modernista",
-text:"Diferente do nacionalismo ufanista do Romantismo, o nacionalismo modernista era crítico e reflexivo. Buscava entender o Brasil real, com suas contradições e problemas. A Segunda Geração aprofundou essa visão ao retratar regiões esquecidas como o Nordeste, denunciando a miséria e o abandono, mas também valorizando a riqueza cultural e a resistência do povo brasileiro."
-},
-
-// ===== CONTEXTO =====
-
-crise29:{
-name:"Crise de 1929",
-text:"A Quebra da Bolsa de Valores de Nova York em outubro de 1929 desencadeou a Grande Depressão, afetando profundamente o Brasil. O preço do café — principal produto de exportação — despencou, levando à falência de cafeicultores e ao desemprego em massa. Essa crise econômica expôs as fragilidades do modelo agrário-exportador e influenciou os escritores da Segunda Geração a abordarem temas como pobreza e desigualdade."
-},
-
-eravargas:{
-name:"Era Vargas (1930-1945)",
-text:"Getúlio Vargas chegou ao poder em 1930, iniciando um período de profundas transformações políticas e sociais. O Estado Novo (1937-1945) foi marcado por censura, repressão e controle da imprensa. Apesar disso, a literatura da Segunda Geração floresceu, muitas vezes driblando a censura com metáforas e críticas sutis. Autores como Graciliano Ramos chegaram a ser presos durante o regime."
-},
-
-guerra:{
-name:"Segunda Guerra Mundial",
-text:"A Segunda Guerra Mundial (1939-1945) trouxe um clima de medo e incerteza global que influenciou a literatura brasileira. Poetas como Carlos Drummond de Andrade abordaram o conflito em obras como 'A Rosa do Povo', refletindo sobre o destino da humanidade, a opressão e a esperança em meio ao caos. A guerra também acelerou mudanças sociais e políticas no Brasil."
-},
-
-// ===== CARACTERÍSTICAS =====
-
-regionalismo:{
-name:"Regionalismo Nordestino",
-text:"O regionalismo foi a marca registrada da prosa da Segunda Geração. Os autores voltaram seu olhar para o Nordeste brasileiro, retratando a seca, a fome, a miséria e a luta pela sobrevivência. Diferente do regionalismo idealizado do Romantismo, este era crítico e realista, denunciando o abandono da região pelo poder público e as injustiças sociais."
-},
-
-linguagem:{
-name:"Linguagem Coloquial",
-text:"Uma das grandes inovações da Segunda Geração foi o uso de uma linguagem mais próxima da fala popular. Os autores abandonaram o vocabulário rebuscado e as estruturas gramaticais rígidas, incorporando expressões regionais, gírias e a oralidade do povo brasileiro. Isso tornou a literatura mais acessível e autenticamente nacional."
-},
-
-criticasocial:{
-name:"Literatura como Denúncia",
-text:"A Segunda Geração transformou a literatura em um instrumento de denúncia das injustiças sociais. Os autores expuseram as condições desumanas dos retirantes, a exploração dos trabalhadores rurais, o abandono das crianças de rua e a opressão do sistema político. Essa postura engajada fez da literatura uma voz dos marginalizados."
-},
-
-psicologico:{
-name:"Análise Psicológica",
-text:"Além da crítica social, a Segunda Geração aprofundou a análise psicológica dos personagens. Obras como 'Angústia', de Graciliano Ramos, e 'Perto do Coração Selvagem', de Clarice Lispector (embora de transição para a 3ª geração), mergulharam nas complexidades da mente humana, explorando temas como solidão, loucura, obsessão e crise existencial."
-},
-
-// ===== DIFERENÇAS =====
-
-primeirageracao:{
-name:"Primeira Geração Modernista (1922-1930)",
-text:"A Primeira Geração do Modernismo foi marcada pela rebeldia e pela experimentação. Liderada por Mário de Andrade e Oswald de Andrade, buscou romper radicalmente com os padrões artísticos tradicionais. O foco estava na inovação estética, no uso de linguagem coloquial, na ironia e na paródia. O Manifesto Antropofágico e a Semana de 22 são símbolos dessa fase de destruição criativa."
-},
-
-segundageracao:{
-name:"Segunda Geração Modernista (1930-1945)",
-text:"A Segunda Geração representou o amadurecimento do Modernismo. Superada a fase de ruptura, os autores se voltaram para temas sociais e existenciais. O regionalismo nordestino, a crítica social e a análise psicológica tornaram-se as principais marcas. Autores como Graciliano Ramos, Rachel de Queiroz, Jorge Amado, Drummond e Cecília Meireles produziram obras que se tornaram clássicos da literatura brasileira."
-},
-
-// ===== LEGADO =====
-
-classicos:{
-name:"Obras que se Tornaram Clássicos",
-text:"A Segunda Geração produziu algumas das obras mais importantes da literatura brasileira. 'Vidas Secas' (1938), 'Capitães da Areia' (1937), 'O Quinze' (1930), 'A Rosa do Povo' (1945) e 'Viagem' (1939) são apenas alguns exemplos de livros que continuam sendo lidos e estudados até hoje, tanto no Brasil quanto no exterior."
-},
-
-regionalismolegado:{
-name:"Valorização da Cultura Regional",
-text:"O regionalismo da Segunda Geração deixou um legado duradouro ao valorizar as culturas e tradições das diferentes regiões brasileiras. Autores como Jorge Amado eternizaram a cultura baiana, enquanto Graciliano Ramos e Rachel de Queiroz deram voz ao sertão nordestino. Essa diversidade regional enriqueceu a literatura brasileira e ajudou a construir a identidade nacional."
-},
-
-criticaliteraria:{
-name:"Fortalecimento da Literatura Social",
-text:"A Segunda Geração consolidou a tradição da literatura social no Brasil. A postura crítica e engajada desses autores influenciou gerações posteriores, mostrando que a literatura pode ser uma poderosa ferramenta de transformação social. O compromisso com a realidade brasileira tornou-se uma marca da nossa produção literária."
-},
-
-influencia:{
-name:"Influência nos Escritores Contemporâneos",
-text:"Os autores da Segunda Geração continuam a inspirar escritores contemporâneos. A linguagem enxuta de Graciliano Ramos, o lirismo de Cecília Meireles, a ironia de Drummond e a narrativa popular de Jorge Amado são referências constantes na literatura brasileira atual. Seus temas — desigualdade, seca, amor, angústia — permanecem relevantes no Brasil de hoje."
-}
+liberdade:{name:"Liberdade Artística",text:"A liberdade artística foi um dos pilares do Modernismo. Os escritores da Segunda Geração abandonaram as regras rígidas da métrica e da rima na poesia, e na prosa romperam com a estrutura linear tradicional. Essa liberdade permitiu que cada autor desenvolvesse seu estilo único, como a linguagem seca e direta de Graciliano Ramos ou o lirismo musical de Cecília Meireles."},
+identidade:{name:"Identidade Nacional",text:"A busca por uma identidade genuinamente brasileira foi central no Modernismo. Na Segunda Geração, isso se manifestou no regionalismo, com autores retratando diferentes realidades do país — o sertão nordestino, os engenhos de cana, as ruas de Salvador. Essa valorização do local e do popular ajudou a construir uma literatura que refletia a diversidade cultural do Brasil."},
+critica:{name:"Crítica e Denúncia",text:"A literatura da Segunda Geração Modernista assumiu um forte papel de crítica social. Os autores denunciavam a pobreza, a seca, a exploração dos trabalhadores e as desigualdades regionais. Obras como 'Vidas Secas' e 'Capitães da Areia' expuseram problemas que a sociedade preferia ignorar, transformando a literatura em instrumento de conscientização e mudança."},
+semana22:{name:"Semana de Arte Moderna de 1922",text:"Realizada no Theatro Municipal de São Paulo nos dias 13, 15 e 17 de fevereiro de 1922, a Semana de Arte Moderna foi o marco inicial do Modernismo brasileiro. Reuniu artistas como Mário de Andrade, Oswald de Andrade, Anita Malfatti e Villa-Lobos. O evento chocou o público conservador com propostas inovadoras que rompiam com os padrões acadêmicos europeus."},
+ruptura:{name:"Ruptura com a Tradição",text:"A ruptura modernista significou o abandono dos modelos estéticos do século XIX, como o Parnasianismo na poesia e o Realismo na prosa. Os autores passaram a usar linguagem coloquial, versos livres, ironia e experimentação formal. Na Segunda Geração, essa ruptura já estava consolidada, permitindo que os escritores se concentrassem em temas sociais e existenciais mais profundos."},
+nacionalismo:{name:"Nacionalismo Modernista",text:"Diferente do nacionalismo ufanista do Romantismo, o nacionalismo modernista era crítico e reflexivo. Buscava entender o Brasil real, com suas contradições e problemas. A Segunda Geração aprofundou essa visão ao retratar regiões esquecidas como o Nordeste, denunciando a miséria e o abandono, mas também valorizando a riqueza cultural e a resistência do povo brasileiro."},
+crise29:{name:"Crise de 1929",text:"A Quebra da Bolsa de Valores de Nova York em outubro de 1929 desencadeou a Grande Depressão, afetando profundamente o Brasil. O preço do café — principal produto de exportação — despencou, levando à falência de cafeicultores e ao desemprego em massa. Essa crise econômica expôs as fragilidades do modelo agrário-exportador e influenciou os escritores da Segunda Geração a abordarem temas como pobreza e desigualdade."},
+eravargas:{name:"Era Vargas (1930-1945)",text:"Getúlio Vargas chegou ao poder em 1930, iniciando um período de profundas transformações políticas e sociais. O Estado Novo (1937-1945) foi marcado por censura, repressão e controle da imprensa. Apesar disso, a literatura da Segunda Geração floresceu, muitas vezes driblando a censura com metáforas e críticas sutis. Autores como Graciliano Ramos chegaram a ser presos durante o regime."},
+guerra:{name:"Segunda Guerra Mundial",text:"A Segunda Guerra Mundial (1939-1945) trouxe um clima de medo e incerteza global que influenciou a literatura brasileira. Poetas como Carlos Drummond de Andrade abordaram o conflito em obras como 'A Rosa do Povo', refletindo sobre o destino da humanidade, a opressão e a esperança em meio ao caos. A guerra também acelerou mudanças sociais e políticas no Brasil."},
+regionalismo:{name:"Regionalismo Nordestino",text:"O regionalismo foi a marca registrada da prosa da Segunda Geração. Os autores voltaram seu olhar para o Nordeste brasileiro, retratando a seca, a fome, a miséria e a luta pela sobrevivência. Diferente do regionalismo idealizado do Romantismo, este era crítico e realista, denunciando o abandono da região pelo poder público e as injustiças sociais."},
+linguagem:{name:"Linguagem Coloquial",text:"Uma das grandes inovações da Segunda Geração foi o uso de uma linguagem mais próxima da fala popular. Os autores abandonaram o vocabulário rebuscado e as estruturas gramaticais rígidas, incorporando expressões regionais, gírias e a oralidade do povo brasileiro. Isso tornou a literatura mais acessível e autenticamente nacional."},
+criticasocial:{name:"Literatura como Denúncia",text:"A Segunda Geração transformou a literatura em um instrumento de denúncia das injustiças sociais. Os autores expuseram as condições desumanas dos retirantes, a exploração dos trabalhadores rurais, o abandono das crianças de rua e a opressão do sistema político. Essa postura engajada fez da literatura uma voz dos marginalizados."},
+psicologico:{name:"Análise Psicológica",text:"Além da crítica social, a Segunda Geração aprofundou a análise psicológica dos personagens. Obras como 'Angústia', de Graciliano Ramos, e 'Perto do Coração Selvagem', de Clarice Lispector, mergulharam nas complexidades da mente humana, explorando temas como solidão, loucura, obsessão e crise existencial."},
+primeirageracao:{name:"Primeira Geração Modernista (1922-1930)",text:"A Primeira Geração do Modernismo foi marcada pela rebeldia e pela experimentação. Liderada por Mário de Andrade e Oswald de Andrade, buscou romper radicalmente com os padrões artísticos tradicionais. O foco estava na inovação estética, no uso de linguagem coloquial, na ironia e na paródia. O Manifesto Antropofágico e a Semana de 22 são símbolos dessa fase de destruição criativa."},
+segundageracao:{name:"Segunda Geração Modernista (1930-1945)",text:"A Segunda Geração representou o amadurecimento do Modernismo. Superada a fase de ruptura, os autores se voltaram para temas sociais e existenciais. O regionalismo nordestino, a crítica social e a análise psicológica tornaram-se as principais marcas. Autores como Graciliano Ramos, Rachel de Queiroz, Jorge Amado, Drummond e Cecília Meireles produziram obras que se tornaram clássicos da literatura brasileira."},
+classicos:{name:"Obras que se Tornaram Clássicos",text:"A Segunda Geração produziu algumas das obras mais importantes da literatura brasileira. 'Vidas Secas' (1938), 'Capitães da Areia' (1937), 'O Quinze' (1930), 'A Rosa do Povo' (1945) e 'Viagem' (1939) são apenas alguns exemplos de livros que continuam sendo lidos e estudados até hoje, tanto no Brasil quanto no exterior."},
+regionalismolegado:{name:"Valorização da Cultura Regional",text:"O regionalismo da Segunda Geração deixou um legado duradouro ao valorizar as culturas e tradições das diferentes regiões brasileiras. Autores como Jorge Amado eternizaram a cultura baiana, enquanto Graciliano Ramos e Rachel de Queiroz deram voz ao sertão nordestino. Essa diversidade regional enriqueceu a literatura brasileira e ajudou a construir a identidade nacional."},
+criticaliteraria:{name:"Fortalecimento da Literatura Social",text:"A Segunda Geração consolidou a tradição da literatura social no Brasil. A postura crítica e engajada desses autores influenciou gerações posteriores, mostrando que a literatura pode ser uma poderosa ferramenta de transformação social. O compromisso com a realidade brasileira tornou-se uma marca da nossa produção literária."},
+influencia:{name:"Influência nos Escritores Contemporâneos",text:"Os autores da Segunda Geração continuam a inspirar escritores contemporâneos. A linguagem enxuta de Graciliano Ramos, o lirismo de Cecília Meireles, a ironia de Drummond e a narrativa popular de Jorge Amado são referências constantes na literatura brasileira atual. Seus temas — desigualdade, seca, amor, angústia — permanecem relevantes no Brasil de hoje."}
 
 };
 
@@ -1196,9 +1139,15 @@ document.getElementById("contentText").innerHTML = `
 ${contents[topic].text}
 `;
 
+if(topic !== 'obras'){
+document.getElementById("contentImg").style.display = "block";
+document.querySelector(".right").style.display = "block";
 document.getElementById("contentImg").src = contents[topic].image;
 document.getElementById("contentImg").alt = contents[topic].imageAlt;
 document.getElementById("contentCaption").innerText = contents[topic].imageCaption;
+} else {
+document.querySelector(".right").style.display = "none";
+}
 
 window.scrollTo({
 top:900,
@@ -1207,55 +1156,50 @@ behavior:'smooth'
 
 }
 
-// ===== FUNÇÃO PARA ABRIR MODAL DO AUTOR (COM IMAGEM) =====
+// ===== FUNÇÃO PARA ABRIR MODAL DO AUTOR =====
 
 function openAuthor(author){
-
 document.getElementById("modalBox").classList.remove("no-image");
 document.getElementById("modalImg").style.display = "block";
-
 document.getElementById("authorModal").style.display = "flex";
-
 document.getElementById("modalImg").src = authors[author].image;
 document.getElementById("modalImg").alt = authors[author].imageAlt;
-
 document.getElementById("modalTitle").innerText = authors[author].name;
-
 document.getElementById("modalText").innerText = authors[author].text;
-
 }
 
-// ===== FUNÇÃO PARA ABRIR MODAL DO TEMA (COM CAPA DE OBRA) =====
+// ===== FUNÇÃO PARA ABRIR MODAL DA OBRA =====
 
-function openTheme(theme){
-
+function openObra(obra){
 document.getElementById("modalBox").classList.remove("no-image");
 document.getElementById("modalImg").style.display = "block";
-
 document.getElementById("authorModal").style.display = "flex";
-
-document.getElementById("modalImg").src = themes[theme].image;
-document.getElementById("modalImg").alt = themes[theme].imageAlt;
-
-document.getElementById("modalTitle").innerText = themes[theme].name;
-
-document.getElementById("modalText").innerText = themes[theme].text;
-
+document.getElementById("modalImg").src = obrasDetalhes[obra].image;
+document.getElementById("modalImg").alt = obrasDetalhes[obra].imageAlt;
+document.getElementById("modalTitle").innerHTML = obrasDetalhes[obra].name;
+document.getElementById("modalText").innerHTML = obrasDetalhes[obra].text;
 }
 
-// ===== FUNÇÃO PARA ABRIR MODAL INFORMATIVO (SEM IMAGEM) =====
+// ===== FUNÇÃO PARA ABRIR MODAL DO TEMA =====
+
+function openTheme(theme){
+document.getElementById("modalBox").classList.remove("no-image");
+document.getElementById("modalImg").style.display = "block";
+document.getElementById("authorModal").style.display = "flex";
+document.getElementById("modalImg").src = themes[theme].image;
+document.getElementById("modalImg").alt = themes[theme].imageAlt;
+document.getElementById("modalTitle").innerText = themes[theme].name;
+document.getElementById("modalText").innerText = themes[theme].text;
+}
+
+// ===== FUNÇÃO PARA ABRIR MODAL INFORMATIVO =====
 
 function openInfo(info){
-
 document.getElementById("modalBox").classList.add("no-image");
 document.getElementById("modalImg").style.display = "none";
-
 document.getElementById("authorModal").style.display = "flex";
-
 document.getElementById("modalTitle").innerText = infos[info].name;
-
 document.getElementById("modalText").innerText = infos[info].text;
-
 }
 
 // ===== FUNÇÃO PARA FECHAR MODAL =====
@@ -1267,13 +1211,10 @@ document.getElementById("authorModal").style.display = "none";
 // ===== FECHAR MODAL CLICANDO FORA =====
 
 window.addEventListener("click",(e)=>{
-
 const modal = document.getElementById("authorModal");
-
 if(e.target === modal){
 modal.style.display = "none";
 }
-
 });
 
 // ===== MENU MOBILE =====
