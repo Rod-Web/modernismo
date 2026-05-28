@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>2ª Geração Modernista</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<style>
+
+/* ===== MODAL DOS AUTORES ===== */
+
+.modal{
+    display:none;
+    position:fixed;
+    z-index:3000;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.8);
+    backdrop-filter:blur(8px);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-content{
+    background:#0f172a;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:30px;
+    padding:35px;
+    max-width:550px;
+    width:100%;
+    position:relative;
+    text-align:center;
+    animation:fadeUp .4s ease;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+.modal-content img{
+    width:240px;
+    height:240px;
+    object-fit:cover;
+    border-radius:25px;
+    margin-bottom:25px;
+    box-shadow:0 15px 40px rgba(0,0,0,.5);
+}
+
+.modal-content h2{
+    color:var(--primary);
+    margin-bottom:15px;
+    font-size:2rem;
+}
+
+.modal-content p{
+    color:var(--muted);
+    line-height:1.8;
+}
+
+.close{
+    position:absolute;
+    top:15px;
+    right:20px;
+    font-size:2.2rem;
+    cursor:pointer;
+    color:white;
+    transition:.3s;
+}
+
+.close:hover{
+    transform:scale(1.1);
+    color:var(--primary);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+}
+
+:root{
+    --bg:#020617;
+    --card:#0f172a;
+    --primary:#22c55e;
+    --secondary:#38bdf8;
+    --text:#f8fafc;
+    --muted:#cbd5e1;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#020617,#0f172a,#111827);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+/* ===== NAVBAR ===== */
+
+header{
+    position:fixed;
+    width:100%;
+    top:0;
+    z-index:999;
+    backdrop-filter:blur(10px);
+    background:rgba(2,6,23,.85);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 25px;
+}
+
+.logo{
+    font-size:1.3rem;
+    font-weight:bold;
+    color:var(--primary);
+}
+
+.menu{
+    display:flex;
+    gap:10px;
+}
+
+.menu button{
+    border:none;
+    background:none;
+    color:white;
+    cursor:pointer;
+    padding:10px 14px;
+    border-radius:10px;
+    transition:.3s;
+    font-size:.95rem;
+}
+
+.menu button:hover{
+    background:var(--primary);
+    transform:translateY(-2px);
+}
+
+.hamburger{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    cursor:pointer;
+}
+
+.hamburger span{
+    width:25px;
+    height:3px;
+    background:white;
+    border-radius:5px;
+}
+
+/* ===== HERO ===== */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:140px 20px 20px;
+    position:relative;
+}
+
+.hero figcaption{
+    color: var(--muted);
+    margin-top: 15px;
+    font-size: 0.95rem;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+.hero::before{
+    content:'';
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:var(--primary);
+    filter:blur(150px);
+    opacity:.15;
+    top:-100px;
+    left:-100px;
+}
+
+.hero::after{
+    content:'';
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:var(--secondary);
+    filter:blur(120px);
+    opacity:.12;
+    bottom:0;
+    right:0;
+}
+
+.hero-content{
+    max-width:1000px;
+    z-index:2;
+    animation:fadeUp 1s ease;
+}
+
+.hero h1{
+    font-size:4.5rem;
+    margin-bottom:25px;
+    background:linear-gradient(to right,var(--primary),var(--secondary));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    color:var(--muted);
+    line-height:1.9;
+    font-size:1.2rem;
+}
+
+.hero img{
+    width:100%;
+    max-width:850px;
+    margin-top:45px;
+    border-radius:25px;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+    transition:.5s;
+}
+
+.hero img:hover{
+    transform:scale(0.99);
+}
+
+/* ===== CONTAINER ===== */
+
+.container{
+    width:90%;
+    max-width:1400px;
+    margin:auto;
+    padding-bottom:80px;
+}
+
+/* ===== CONTENT ===== */
+
+.content-box{
+    margin-top:40px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:30px;
+    padding:45px;
+    display:flex;
+    gap:40px;
+    align-items:flex-start;
+    animation:fade .5s ease;
+    position:relative;
+    overflow:hidden;
+}
+
+.content-box::before{
+    content:'';
+    position:absolute;
+    width:250px;
+    height:250px;
+    background:var(--secondary);
+    opacity:.08;
+    border-radius:50%;
+    top:-80px;
+    right:-80px;
+}
+
+.left{
+    flex:1.2;
+    z-index:2;
+}
+
+.right{
+    flex:1;
+    z-index:2;
+}
+
+.right img{
+    width:100%;
+    border-radius:20px;
+    box-shadow:0 15px 40px rgba(0,0,0,.5);
+    transition:.5s;
+}
+
+.right img:hover{
+    transform:scale(1.03);
+}
+
+/* Legenda da imagem lateral */
+.right figcaption{
+    color: var(--muted);
+    margin-top: 12px;
+    font-size: 0.85rem;
+    font-style: italic;
+    opacity: 0.7;
+    text-align: center;
+}
+
+.content-box h2{
+    font-size:2.4rem;
+    margin-bottom:25px;
+    color:var(--secondary);
+}
+
+.content-box p{
+    color:var(--muted);
+    line-height:1.9;
+    margin-bottom:18px;
+    text-align:justify;
+}
+
+.highlight{
+    background:rgba(34,197,94,.15);
+    border-left:4px solid var(--primary);
+    padding:18px;
+    border-radius:12px;
+    margin:25px 0;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-top:25px;
+}
+
+.info-card{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    padding:22px;
+    border-radius:18px;
+    transition:.4s;
+    cursor:pointer;
+}
+
+.info-card:hover{
+    transform:translateY(-8px);
+    background:rgba(255,255,255,.08);
+}
+
+.info-card h3{
+    margin-bottom:12px;
+    color:var(--primary);
+}
+
+/* ===== TIMELINE ===== */
+
+.timeline{
+    margin-top:30px;
+    border-left:3px solid var(--primary);
+    padding-left:20px;
+}
+
+.timeline-item{
+    margin-bottom:30px;
+    animation:fadeUp 1s ease;
+}
+
+.timeline-item h4{
+    color:var(--secondary);
+    margin-bottom:8px;
+}
+
+/* ===== FOOTER ===== */
+
+footer{
+    padding:40px 20px;
+    text-align:center;
+    color:#94a3b8;
+    border-top:1px solid rgba(255,255,255,.1);
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media(max-width:1000px){
+
+    .content-box{
+        flex-direction:column;
+    }
+
+    .hero h1{
+        font-size:3rem;
+    }
+
+    .menu{
+        position:absolute;
+        top:80px;
+        right:-100%;
+        flex-direction:column;
+        background:#020617;
+        width:270px;
+        padding:20px;
+        transition:.4s;
+        border-left:1px solid rgba(255,255,255,.1);
+    }
+
+    .menu.active{
+        right:0;
+    }
+
+    .hamburger{
+        display:flex;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+
+<header>
+
+<nav class="nav">
+
+<div class="logo">Modernismo 1930</div>
+
+<div class="menu" id="menu">
+
+<button onclick="showContent('intro')">Introdução</button>
+<button onclick="showContent('segunda')">2ª Geração</button>
+<button onclick="showContent('contexto')">Contexto</button>
+<button onclick="showContent('caracteristicas')">Características</button>
+<button onclick="showContent('prosa')">Prosa</button>
+<button onclick="showContent('poesia')">Poesia</button>
+<button onclick="showContent('temas')">Temas</button>
+<button onclick="showContent('diferenca')">Diferenças</button>
+<button onclick="showContent('legado')">Legado</button>
+
+</div>
+
+<div class="hamburger" id="hamburger">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+</nav>
+
+</header>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>2ª Geração Modernista</h1>
+
+<p>
+A fase mais madura do Modernismo brasileiro transformou a literatura em uma poderosa
+ferramenta de crítica social, análise psicológica e valorização da identidade nacional.
+</p>
+
+<figure>
+<img src="https://empreendedor.com.br/wp-content/uploads/2022/02/abaporu-tarsila.png" alt="Pintura Abaporu de Tarsila do Amaral - obra icônica do Modernismo brasileiro que inspirou o Manifesto Antropofágico">
+<figcaption>Abaporu (1928) - Tarsila do Amaral. Obra que inspirou o Manifesto Antropofágico.</figcaption>
+</figure>
+
+</div>
+
+</section>
+
+<!-- CONTAINER -->
+
+<section class="container">
+
+<div class="content-box">
+
+<div class="left" id="contentText">
+
+<h2>Introdução ao Modernismo</h2>
+
+<p>
+O Modernismo brasileiro surgiu oficialmente em 1922 com a Semana de Arte Moderna,
+propondo uma ruptura com os modelos artísticos tradicionais.
+</p>
+
+<div class="highlight">
+A literatura passou a valorizar o cotidiano, a linguagem popular
+e os problemas sociais brasileiros.
+</div>
+
+<p>
+A Segunda Geração Modernista aprofundou essas mudanças, criando obras mais maduras,
+críticas e voltadas para a realidade do país.
+</p>
+
+<p>
+<strong>Clique nos cards abaixo para saber mais sobre cada pilar do Modernismo:</strong>
+</p>
+
+<div class="cards">
+
+<div class="info-card" onclick="openInfo('liberdade')">
+<h3>Liberdade</h3>
+<p>Rompimento com padrões antigos e linguagem formal.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('identidade')">
+<h3>Identidade</h3>
+<p>Valorização da cultura e da realidade brasileira.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('critica')">
+<h3>Crítica</h3>
+<p>Denúncia das desigualdades sociais do país.</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="right">
+<figure>
+<img id="contentImg" src="https://institutoling.org.br/uploads/assets/1646312127-cartaz-anunciando-o-ultimo-dia-da-semana-de-arte-moderna-credito-reproducao.jpg" alt="Cartaz da Semana de Arte Moderna de 1922 - marco inicial do Modernismo no Brasil">
+<figcaption id="contentCaption">Cartaz do último dia da Semana de Arte Moderna de 1922.</figcaption>
+</figure>
+</div>
+
+</div>
+
+</section>
+
+<!-- MODAL DOS AUTORES -->
+
+<div class="modal" id="authorModal">
+
+<div class="modal-content" id="modalBox">
+
+<span class="close" onclick="closeModal()">&times;</span>
+
+<img id="modalImg" src="" alt="Imagem do autor ou tema selecionado" style="display:none;">
+
+<h2 id="modalTitle"></h2>
+
+<p id="modalText"></p>
+
+</div>
+
+</div>
+
+<footer>
+© 2026 | Segunda Geração Modernista Brasileira
+</footer>
+
+<script>
+
+// ===== CONTEÚDO DAS SEÇÕES =====
+
+const contents = {
+
+intro:{
+title:"Introdução ao Modernismo",
+
+image:"https://institutoling.org.br/uploads/assets/1646312127-cartaz-anunciando-o-ultimo-dia-da-semana-de-arte-moderna-credito-reproducao.jpg",
+imageAlt:"Cartaz da Semana de Arte Moderna de 1922 - marco inicial do Modernismo no Brasil",
+imageCaption:"Cartaz do último dia da Semana de Arte Moderna de 1922.",
+
+text:`
+
+<p>
+O Modernismo revolucionou a arte brasileira ao romper com os modelos clássicos europeus.
+Os artistas buscavam uma arte mais livre, nacional e conectada com a realidade do Brasil.
+</p>
+
+<div class="highlight">
+A Semana de Arte Moderna de 1922 marcou o início dessa transformação cultural.
+</div>
+
+<p>
+Os escritores modernistas passaram a usar linguagem coloquial,
+humor, ironia e temas do cotidiano.
+</p>
+
+<p>
+<strong>Clique nos cards abaixo para saber mais sobre cada pilar do Modernismo:</strong>
+</p>
+
+<div class="cards">
+
+<div class="info-card" onclick="openInfo('semana22')">
+<h3>Semana de 22</h3>
+<p>Marco inicial do Modernismo brasileiro.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('ruptura')">
+<h3>Ruptura</h3>
+<p>Quebra dos modelos tradicionais da literatura.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('nacionalismo')">
+<h3>Nacionalismo</h3>
+<p>Busca por identidade cultural brasileira.</p>
+</div>
+
+</div>
+`
+},
+
+segunda:{
+title:"O que foi a Segunda Geração",
+
+image:"https://www.soliteratura.com.br/modernismo/imagens/graciliano2.jpg",
+imageAlt:"Retrato do escritor Graciliano Ramos - um dos principais autores da Segunda Geração Modernista",
+imageCaption:"Graciliano Ramos (1892-1953), um dos maiores nomes da Segunda Geração Modernista.",
+
+text:`
+
+<p>
+A Segunda Geração Modernista aconteceu entre 1930 e 1945 e ficou conhecida
+como a fase de consolidação do Modernismo.
+</p>
+
+<p>
+Os autores deixaram de focar apenas na inovação estética e passaram a produzir
+obras mais profundas e socialmente engajadas.
+</p>
+
+<div class="highlight">
+A literatura virou instrumento de denúncia social e análise da condição humana.
+</div>
+
+<div class="timeline">
+
+<div class="timeline-item">
+<h4>1930</h4>
+<p>Ascensão da literatura regionalista e social.</p>
+</div>
+
+<div class="timeline-item">
+<h4>1937</h4>
+<p>Estado Novo fortalece censura e tensão política.</p>
+</div>
+
+<div class="timeline-item">
+<h4>1945</h4>
+<p>Fim da geração com novas tendências literárias.</p>
+</div>
+
+</div>
+`
+},
+
+contexto:{
+title:"Contexto Histórico",
+
+image:"https://1.bp.blogspot.com/-L3W-0LrMZ0w/VvavwiMgvEI/AAAAAAAABXw/6UqkvxkMDw0PrKaA-9TK89TFvnlr2ydIg/s1600/getulio_vargas_6b_1.jpg",
+imageAlt:"Fotografia de Getúlio Vargas - presidente que marcou a Era Vargas durante a Segunda Geração Modernista",
+imageCaption:"Getúlio Vargas, presidente do Brasil durante o Estado Novo (1937-1945).",
+
+text:`
+
+<p>
+A Segunda Geração foi influenciada por crises políticas e econômicas.
+A quebra da Bolsa de Nova Iorque em 1929 afetou fortemente o Brasil.
+</p>
+
+<p>
+Ao mesmo tempo, o país vivia a Era Vargas, marcada por centralização política,
+censura e repressão.
+</p>
+
+<p>
+<strong>Clique nos cards para entender cada evento histórico:</strong>
+</p>
+
+<div class="cards">
+
+<div class="info-card" onclick="openInfo('crise29')">
+<h3>Crise de 1929</h3>
+<p>Desemprego e queda da economia cafeeira.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('eravargas')">
+<h3>Era Vargas</h3>
+<p>Transformações políticas e sociais no Brasil.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('guerra')">
+<h3>2ª Guerra</h3>
+<p>Influenciou temas de medo e insegurança.</p>
+</div>
+
+</div>
+`
+},
+
+caracteristicas:{
+title:"Características da Geração",
+
+image:"https://donoleari.com.br/wp-content/uploads/2022/01/os-retirantes-1.jpg",
+imageAlt:"Pintura Os Retirantes de Candido Portinari - retrata famílias fugindo da seca no Nordeste brasileiro",
+imageCaption:"Os Retirantes (1944) - Candido Portinari. Representação da seca e do êxodo nordestino.",
+
+text:`
+
+<p>
+A Segunda Geração Modernista apresentou amadurecimento literário,
+forte regionalismo e preocupação social.
+</p>
+
+<div class="highlight">
+Os autores retratavam seca, pobreza, desigualdade
+e conflitos psicológicos humanos.
+</div>
+
+<p>
+<strong>Clique nos cards para explorar cada característica:</strong>
+</p>
+
+<div class="cards">
+
+<div class="info-card" onclick="openInfo('regionalismo')">
+<h3>Regionalismo</h3>
+<p>Foco no Nordeste brasileiro.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('linguagem')">
+<h3>Linguagem</h3>
+<p>Mais simples e próxima da fala popular.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('criticasocial')">
+<h3>Crítica Social</h3>
+<p>Denúncia da exploração e injustiça.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('psicologico')">
+<h3>Psicológico</h3>
+<p>Análise profunda dos personagens.</p>
+</div>
+
+</div>
+`
+},
+
+prosa:{
+title:"Autores da Prosa",
+
+image:"https://tse2.mm.bing.net/th/id/OIP.B-IkMs8mV4SgQWKE2w8wFwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+imageAlt:"Retrato do escritor Jorge Amado - autor de Capitães da Areia e grande nome da prosa modernista",
+imageCaption:"Jorge Amado (1912-2001), um dos autores brasileiros mais traduzidos no mundo.",
+
+text:`
+
+<p>
+Os autores da prosa modernista exploraram problemas sociais brasileiros,
+principalmente no Nordeste. <strong>Clique nos cards para saber mais:</strong>
+</p>
+
+<div class="cards">
+
+<div class="info-card" onclick="openAuthor('graciliano')">
+<h3>Graciliano Ramos</h3>
+<p><strong>Vidas Secas</strong> e <strong>São Bernardo</strong>.
+Linguagem seca e crítica social.</p>
+</div>
+
+<div class="info-card" onclick="openAuthor('rachel')">
+<h3>Rachel de Queiroz</h3>
+<p><strong>O Quinze</strong>.
+Retratou a seca e a condição feminina.</p>
+</div>
+
+<div class="info-card" onclick="openAuthor('jorge')">
+<h3>Jorge Amado</h3>
+<p><strong>Capitães da Areia</strong>.
+Valorização da cultura popular.</p>
+</div>
+
+<div class="info-card" onclick="openAuthor('joselins')">
+<h3>José Lins do Rego</h3>
+<p><strong>Menino de Engenho</strong>.
+Decadência dos engenhos nordestinos.</p>
+</div>
+
+</div>
+`
+},
+
+poesia:{
+title:"Autores da Poesia",
+
+image:"https://cdn.culturagenial.com/imagens/carlos-drummond-de-andrade-0-cke.jpg",
+imageAlt:"Retrato do poeta Carlos Drummond de Andrade - um dos maiores poetas da literatura brasileira",
+imageCaption:"Carlos Drummond de Andrade (1902-1987), um dos maiores poetas brasileiros.",
+
+text:`
+
+<p>
+A poesia da geração de 1930 tornou-se mais reflexiva,
+existencial e socialmente crítica. <strong>Clique nos cards para saber mais:</strong>
+</p>
+
+<div class="cards">
+
+<div class="info-card" onclick="openAuthor('drummond')">
+<h3>Drummond</h3>
+<p><strong>A Rosa do Povo</strong>.
+Ironia, crítica e cotidiano.</p>
+</div>
+
+<div class="info-card" onclick="openAuthor('cecilia')">
+<h3>Cecília Meireles</h3>
+<p><strong>Viagem</strong>.
+Musicalidade e reflexão filosófica.</p>
+</div>
+
+<div class="info-card" onclick="openAuthor('vinicius')">
+<h3>Vinícius de Moraes</h3>
+<p><strong>Sonetos e Baladas</strong>.
+Amor e musicalidade poética.</p>
+</div>
+
+</div>
+
+<div class="highlight">
+A poesia aproximou literatura e cotidiano,
+criando textos mais humanos e universais.
+</div>
+`
+},
+
+temas:{
+title:"Principais Temas",
+
+image:"https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg",
+imageAlt:"Capa do livro Vidas Secas de Graciliano Ramos - principal obra sobre a seca nordestina",
+imageCaption:"Vidas Secas (1938) - Graciliano Ramos. A obra mais emblemática sobre a seca no sertão.",
+
+text:`
+
+<p>
+Os temas da Segunda Geração refletiam as angústias sociais e existenciais do período.
+<strong>Clique nos cards para ver obras relacionadas a cada tema:</strong>
+</p>
+
+<div class="cards">
+
+<div class="info-card" onclick="openTheme('seca')">
+<h3>Seca</h3>
+<p>Sobrevivência e sofrimento nordestino.</p>
+</div>
+
+<div class="info-card" onclick="openTheme('pobreza')">
+<h3>Pobreza</h3>
+<p>Desigualdade e exclusão social.</p>
+</div>
+
+<div class="info-card" onclick="openTheme('conflitos')">
+<h3>Conflitos</h3>
+<p>Angústia e solidão humana.</p>
+</div>
+
+<div class="info-card" onclick="openTheme('amor')">
+<h3>Amor</h3>
+<p>Sentimentos e relações humanas.</p>
+</div>
+
+</div>
+
+<p>
+Os temas sociais conviviam com reflexões existenciais,
+criando uma literatura mais profunda.
+</p>
+`
+},
+
+diferenca:{
+title:"Diferença entre 1ª e 2ª Geração",
+
+image:"https://cdn.pensador.com/img/authors/ma/ri/mario-de-andrade-l.jpg",
+imageAlt:"Retrato do escritor Mário de Andrade - principal nome da Primeira Geração Modernista",
+imageCaption:"Mário de Andrade (1893-1945), principal nome da Primeira Geração Modernista.",
+
+text:`
+
+<p>
+A Primeira Geração focava na ruptura estética e na experimentação artística.
+Já a Segunda Geração amadureceu o movimento.
+</p>
+
+<p>
+<strong>Clique nos cards para entender as diferenças:</strong>
+</p>
+
+<div class="cards">
+
+<div class="info-card" onclick="openInfo('primeirageracao')">
+<h3>1ª Geração</h3>
+<p>Revolução estética, ironia e liberdade artística.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('segundageracao')">
+<h3>2ª Geração</h3>
+<p>Crítica social, regionalismo e análise psicológica.</p>
+</div>
+
+</div>
+
+<div class="highlight">
+Enquanto a primeira queria destruir modelos antigos,
+a segunda queria compreender e denunciar a realidade brasileira.
+</div>
+`
+},
+
+legado:{
+title:"Importância e Legado",
+
+image:"https://s3-media2.fl.yelpcdn.com/bphoto/BGc9-8jzqWZI9IxNRwalHw/o.jpg",
+imageAlt:"Fachada da Biblioteca Nacional do Brasil no Rio de Janeiro - guardiã do patrimônio literário brasileiro",
+imageCaption:"Biblioteca Nacional do Brasil, no Rio de Janeiro - guardiã do patrimônio literário nacional.",
+
+text:`
+
+<p>
+A Segunda Geração Modernista consolidou a literatura brasileira moderna
+e influenciou gerações futuras.
+</p>
+
+<p>
+<strong>Clique nos cards para descobrir mais sobre cada aspecto do legado:</strong>
+</p>
+
+<div class="cards">
+
+<div class="info-card" onclick="openInfo('classicos')">
+<h3>Clássicos</h3>
+<p>Produziu obras fundamentais da literatura nacional.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('regionalismolegado')">
+<h3>Regionalismo</h3>
+<p>Valorizou culturas e regiões brasileiras.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('criticaliteraria')">
+<h3>Crítica</h3>
+<p>Fortaleceu a literatura social no Brasil.</p>
+</div>
+
+<div class="info-card" onclick="openInfo('influencia')">
+<h3>Influência</h3>
+<p>Inspirou escritores contemporâneos.</p>
+</div>
+
+</div>
+
+<div class="highlight">
+Autores como Graciliano Ramos e Drummond tornaram-se referências eternas da cultura brasileira.
+</div>
+`
+}
+
+};
+
+// ===== DADOS DOS AUTORES =====
+
+const authors = {
+
+graciliano:{
+name:"Graciliano Ramos",
+image:"https://www.soliteratura.com.br/modernismo/imagens/graciliano2.jpg",
+imageAlt:"Retrato do escritor Graciliano Ramos - autor de Vidas Secas e São Bernardo",
+text:"Graciliano Ramos (1892-1953) foi um dos maiores escritores regionalistas brasileiros. Sua obra-prima 'Vidas Secas' (1938) retrata a dura realidade do sertanejo nordestino com uma linguagem seca e direta. Também escreveu 'São Bernardo' e 'Angústia', obras marcadas pela análise psicológica profunda dos personagens."
+},
+
+rachel:{
+name:"Rachel de Queiroz",
+image:"https://imagenes.elpais.com/resizer/_940h_1UZALGF7EQvGx3HXGCdPU=/1960x0/arc-anglerfish-eu-central-1-prod-prisa.s3.amazonaws.com/public/DHXDPWN66HNSOI5DHSQTYJF7ZA.jpg",
+imageAlt:"Retrato da escritora Rachel de Queiroz - primeira mulher a ingressar na Academia Brasileira de Letras",
+text:"Rachel de Queiroz (1910-2003) foi a primeira mulher a ingressar na Academia Brasileira de Letras. Seu romance de estreia 'O Quinze' (1930) tornou-se um clássico ao retratar a seca de 1915 no Nordeste, destacando também a força e resiliência feminina diante das adversidades."
+},
+
+jorge:{
+name:"Jorge Amado",
+image:"https://tse2.mm.bing.net/th/id/OIP.B-IkMs8mV4SgQWKE2w8wFwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+imageAlt:"Retrato do escritor Jorge Amado - um dos autores brasileiros mais traduzidos no mundo",
+text:"Jorge Amado (1912-2001) é um dos autores brasileiros mais traduzidos no mundo. Suas obras valorizam a cultura popular baiana, com personagens marcantes como os meninos de rua de 'Capitães da Areia' (1937). Escreveu também 'Gabriela, Cravo e Canela' e 'Dona Flor e Seus Dois Maridos'."
+},
+
+joselins:{
+name:"José Lins do Rego",
+image:"https://s.ebiografia.com/assets/img/authors/jo/se/jose-lins-do-rego-l.jpg",
+imageAlt:"Retrato do escritor José Lins do Rego - autor do Ciclo da Cana-de-Açúcar",
+text:"José Lins do Rego (1901-1957) destacou-se com o 'Ciclo da Cana-de-Açúcar', série de romances que retratam a decadência dos engenhos nordestinos. 'Menino de Engenho' (1932) é sua obra mais conhecida, com forte carga autobiográfica e crítica social."
+},
+
+drummond:{
+name:"Carlos Drummond de Andrade",
+image:"https://cdn.culturagenial.com/imagens/carlos-drummond-de-andrade-0-cke.jpg",
+imageAlt:"Retrato do poeta Carlos Drummond de Andrade - um dos maiores poetas brasileiros",
+text:"Carlos Drummond de Andrade (1902-1987) é considerado um dos maiores poetas brasileiros de todos os tempos. Sua obra 'A Rosa do Povo' (1945) mescla ironia, crítica social e reflexões sobre o cotidiano. Seu poema 'No Meio do Caminho' tornou-se um ícone da poesia modernista."
+},
+
+cecilia:{
+name:"Cecília Meireles",
+image:"https://1.bp.blogspot.com/-2vwyKe1sCuU/V0-ZxgFCoLI/AAAAAAAAaSA/WDKAcvqb1Hc2CLImBxkDSuU1dUmD52AEQCLcB/s1600/Cec%25C3%25ADlia%2BMeireles%2B-%2Bfoto%2BFolhapress.jpg",
+imageAlt:"Retrato da poetisa Cecília Meireles - uma das principais vozes femininas da poesia brasileira",
+text:"Cecília Meireles (1901-1964) foi uma das principais vozes femininas da poesia brasileira. Sua obra 'Viagem' (1939) destaca-se pela musicalidade, espiritualidade e reflexão filosófica. Também escreveu o famoso 'Romanceiro da Inconfidência', resgatando a história de Minas Gerais."
+},
+
+vinicius:{
+name:"Vinícius de Moraes",
+image:"https://i.pinimg.com/736x/b0/e3/3c/b0e33c5b76beb097661d0340d185741e.jpg",
+imageAlt:"Retrato do poeta Vinícius de Moraes - o poetinha, ícone da música e poesia brasileira",
+text:"Vinícius de Moraes (1913-1980), conhecido como 'poetinha', uniu poesia e música de forma magistral. Seus 'Sonetos e Baladas' exploram o amor com lirismo e sensualidade. Foi um dos fundadores da Bossa Nova, compondo clássicos como 'Garota de Ipanema'."
+}
+
+};
+
+// ===== DADOS DOS TEMAS COM CAPAS DE OBRAS =====
+
+const themes = {
+
+seca:{
+name:"Seca",
+image:"https://m.media-amazon.com/images/I/A15bJ0uX25L._SL1500_.jpg",
+imageAlt:"Capa do livro Vidas Secas de Graciliano Ramos - obra emblemática sobre a seca nordestina",
+text:"O tema da seca foi amplamente explorado na Segunda Geração Modernista. A obra mais emblemática é 'Vidas Secas' (1938), de Graciliano Ramos, que retrata a saga de uma família de retirantes fugindo da seca no sertão nordestino. Outro destaque é 'O Quinze' (1930), de Rachel de Queiroz, que aborda a grande seca de 1915. Essas obras denunciam o abandono do povo nordestino e a luta pela sobrevivência em condições desumanas."
+},
+
+pobreza:{
+name:"Pobreza e Desigualdade",
+image:"https://i0.wp.com/www.literalmenteuai.com.br/wp-content/uploads/2019/07/Capa-Capit%C3%A3es-de-Areia-Jorge-Amado.jpg?fit=791%2C1200&ssl=1",
+imageAlt:"Capa do livro Capitães da Areia de Jorge Amado - meninos de rua em Salvador",
+text:"A denúncia da pobreza e da desigualdade social foi um dos pilares da literatura de 1930. 'Capitães da Areia' (1937), de Jorge Amado, expõe a dura realidade dos meninos de rua em Salvador, abordando temas como abandono, violência e exclusão social. Já 'Menino de Engenho' (1932), de José Lins do Rego, retrata as relações de poder e a decadência dos senhores de engenho, evidenciando as desigualdades do Nordeste açucareiro."
+},
+
+conflitos:{
+name:"Conflitos Psicológicos",
+image:"https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1364649791l/15703784.jpg",
+imageAlt:"Capa do livro Angústia de Graciliano Ramos - obra sobre conflitos psicológicos e existenciais",
+text:"Os conflitos existenciais e psicológicos marcaram profundamente a literatura dessa geração. 'Angústia' (1936), de Graciliano Ramos, mergulha na mente perturbada do protagonista Luís da Silva, explorando temas como solidão, fracasso e obsessão. Na poesia, 'A Rosa do Povo' (1945), de Drummond, traz reflexões sobre o indivíduo em meio à guerra, à política e às contradições da vida moderna, com versos carregados de ironia e melancolia."
+},
+
+amor:{
+name:"Amor e Relações Humanas",
+image:"https://tse1.mm.bing.net/th/id/OIP.D2B8nsCH12RwXfmQNKKvUQAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3",
+imageAlt:"Capa do livro Viagem de Cecília Meireles - poesia sobre amor e reflexão filosófica",
+text:"O amor ganhou contornos mais complexos e humanos na Segunda Geração. 'Viagem' (1939), de Cecília Meireles, explora o amor em suas múltiplas dimensões — da paixão à perda, com intensa musicalidade e lirismo. Já os 'Sonetos e Baladas' de Vinícius de Moraes celebram o amor carnal e espiritual com sensualidade e delicadeza. 'Gabriela, Cravo e Canela' (1958), de Jorge Amado, também aborda o amor livre e a valorização da cultura popular."
+}
+
+};
+
+// ===== DADOS DOS CARDS INFORMATIVOS (SEM IMAGEM) =====
+
+const infos = {
+
+// ===== INTRODUÇÃO =====
+
+liberdade:{
+name:"Liberdade Artística",
+text:"A liberdade artística foi um dos pilares do Modernismo. Os escritores da Segunda Geração abandonaram as regras rígidas da métrica e da rima na poesia, e na prosa romperam com a estrutura linear tradicional. Essa liberdade permitiu que cada autor desenvolvesse seu estilo único, como a linguagem seca e direta de Graciliano Ramos ou o lirismo musical de Cecília Meireles."
+},
+
+identidade:{
+name:"Identidade Nacional",
+text:"A busca por uma identidade genuinamente brasileira foi central no Modernismo. Na Segunda Geração, isso se manifestou no regionalismo, com autores retratando diferentes realidades do país — o sertão nordestino, os engenhos de cana, as ruas de Salvador. Essa valorização do local e do popular ajudou a construir uma literatura que refletia a diversidade cultural do Brasil."
+},
+
+critica:{
+name:"Crítica e Denúncia",
+text:"A literatura da Segunda Geração Modernista assumiu um forte papel de crítica social. Os autores denunciavam a pobreza, a seca, a exploração dos trabalhadores e as desigualdades regionais. Obras como 'Vidas Secas' e 'Capitães da Areia' expuseram problemas que a sociedade preferia ignorar, transformando a literatura em instrumento de conscientização e mudança."
+},
+
+semana22:{
+name:"Semana de Arte Moderna de 1922",
+text:"Realizada no Theatro Municipal de São Paulo nos dias 13, 15 e 17 de fevereiro de 1922, a Semana de Arte Moderna foi o marco inicial do Modernismo brasileiro. Reuniu artistas como Mário de Andrade, Oswald de Andrade, Anita Malfatti e Villa-Lobos. O evento chocou o público conservador com propostas inovadoras que rompiam com os padrões acadêmicos europeus."
+},
+
+ruptura:{
+name:"Ruptura com a Tradição",
+text:"A ruptura modernista significou o abandono dos modelos estéticos do século XIX, como o Parnasianismo na poesia e o Realismo na prosa. Os autores passaram a usar linguagem coloquial, versos livres, ironia e experimentação formal. Na Segunda Geração, essa ruptura já estava consolidada, permitindo que os escritores se concentrassem em temas sociais e existenciais mais profundos."
+},
+
+nacionalismo:{
+name:"Nacionalismo Modernista",
+text:"Diferente do nacionalismo ufanista do Romantismo, o nacionalismo modernista era crítico e reflexivo. Buscava entender o Brasil real, com suas contradições e problemas. A Segunda Geração aprofundou essa visão ao retratar regiões esquecidas como o Nordeste, denunciando a miséria e o abandono, mas também valorizando a riqueza cultural e a resistência do povo brasileiro."
+},
+
+// ===== CONTEXTO =====
+
+crise29:{
+name:"Crise de 1929",
+text:"A Quebra da Bolsa de Valores de Nova York em outubro de 1929 desencadeou a Grande Depressão, afetando profundamente o Brasil. O preço do café — principal produto de exportação — despencou, levando à falência de cafeicultores e ao desemprego em massa. Essa crise econômica expôs as fragilidades do modelo agrário-exportador e influenciou os escritores da Segunda Geração a abordarem temas como pobreza e desigualdade."
+},
+
+eravargas:{
+name:"Era Vargas (1930-1945)",
+text:"Getúlio Vargas chegou ao poder em 1930, iniciando um período de profundas transformações políticas e sociais. O Estado Novo (1937-1945) foi marcado por censura, repressão e controle da imprensa. Apesar disso, a literatura da Segunda Geração floresceu, muitas vezes driblando a censura com metáforas e críticas sutis. Autores como Graciliano Ramos chegaram a ser presos durante o regime."
+},
+
+guerra:{
+name:"Segunda Guerra Mundial",
+text:"A Segunda Guerra Mundial (1939-1945) trouxe um clima de medo e incerteza global que influenciou a literatura brasileira. Poetas como Carlos Drummond de Andrade abordaram o conflito em obras como 'A Rosa do Povo', refletindo sobre o destino da humanidade, a opressão e a esperança em meio ao caos. A guerra também acelerou mudanças sociais e políticas no Brasil."
+},
+
+// ===== CARACTERÍSTICAS =====
+
+regionalismo:{
+name:"Regionalismo Nordestino",
+text:"O regionalismo foi a marca registrada da prosa da Segunda Geração. Os autores voltaram seu olhar para o Nordeste brasileiro, retratando a seca, a fome, a miséria e a luta pela sobrevivência. Diferente do regionalismo idealizado do Romantismo, este era crítico e realista, denunciando o abandono da região pelo poder público e as injustiças sociais."
+},
+
+linguagem:{
+name:"Linguagem Coloquial",
+text:"Uma das grandes inovações da Segunda Geração foi o uso de uma linguagem mais próxima da fala popular. Os autores abandonaram o vocabulário rebuscado e as estruturas gramaticais rígidas, incorporando expressões regionais, gírias e a oralidade do povo brasileiro. Isso tornou a literatura mais acessível e autenticamente nacional."
+},
+
+criticasocial:{
+name:"Literatura como Denúncia",
+text:"A Segunda Geração transformou a literatura em um instrumento de denúncia das injustiças sociais. Os autores expuseram as condições desumanas dos retirantes, a exploração dos trabalhadores rurais, o abandono das crianças de rua e a opressão do sistema político. Essa postura engajada fez da literatura uma voz dos marginalizados."
+},
+
+psicologico:{
+name:"Análise Psicológica",
+text:"Além da crítica social, a Segunda Geração aprofundou a análise psicológica dos personagens. Obras como 'Angústia', de Graciliano Ramos, e 'Perto do Coração Selvagem', de Clarice Lispector (embora de transição para a 3ª geração), mergulharam nas complexidades da mente humana, explorando temas como solidão, loucura, obsessão e crise existencial."
+},
+
+// ===== DIFERENÇAS =====
+
+primeirageracao:{
+name:"Primeira Geração Modernista (1922-1930)",
+text:"A Primeira Geração do Modernismo foi marcada pela rebeldia e pela experimentação. Liderada por Mário de Andrade e Oswald de Andrade, buscou romper radicalmente com os padrões artísticos tradicionais. O foco estava na inovação estética, no uso de linguagem coloquial, na ironia e na paródia. O Manifesto Antropofágico e a Semana de 22 são símbolos dessa fase de destruição criativa."
+},
+
+segundageracao:{
+name:"Segunda Geração Modernista (1930-1945)",
+text:"A Segunda Geração representou o amadurecimento do Modernismo. Superada a fase de ruptura, os autores se voltaram para temas sociais e existenciais. O regionalismo nordestino, a crítica social e a análise psicológica tornaram-se as principais marcas. Autores como Graciliano Ramos, Rachel de Queiroz, Jorge Amado, Drummond e Cecília Meireles produziram obras que se tornaram clássicos da literatura brasileira."
+},
+
+// ===== LEGADO =====
+
+classicos:{
+name:"Obras que se Tornaram Clássicos",
+text:"A Segunda Geração produziu algumas das obras mais importantes da literatura brasileira. 'Vidas Secas' (1938), 'Capitães da Areia' (1937), 'O Quinze' (1930), 'A Rosa do Povo' (1945) e 'Viagem' (1939) são apenas alguns exemplos de livros que continuam sendo lidos e estudados até hoje, tanto no Brasil quanto no exterior."
+},
+
+regionalismolegado:{
+name:"Valorização da Cultura Regional",
+text:"O regionalismo da Segunda Geração deixou um legado duradouro ao valorizar as culturas e tradições das diferentes regiões brasileiras. Autores como Jorge Amado eternizaram a cultura baiana, enquanto Graciliano Ramos e Rachel de Queiroz deram voz ao sertão nordestino. Essa diversidade regional enriqueceu a literatura brasileira e ajudou a construir a identidade nacional."
+},
+
+criticaliteraria:{
+name:"Fortalecimento da Literatura Social",
+text:"A Segunda Geração consolidou a tradição da literatura social no Brasil. A postura crítica e engajada desses autores influenciou gerações posteriores, mostrando que a literatura pode ser uma poderosa ferramenta de transformação social. O compromisso com a realidade brasileira tornou-se uma marca da nossa produção literária."
+},
+
+influencia:{
+name:"Influência nos Escritores Contemporâneos",
+text:"Os autores da Segunda Geração continuam a inspirar escritores contemporâneos. A linguagem enxuta de Graciliano Ramos, o lirismo de Cecília Meireles, a ironia de Drummond e a narrativa popular de Jorge Amado são referências constantes na literatura brasileira atual. Seus temas — desigualdade, seca, amor, angústia — permanecem relevantes no Brasil de hoje."
+}
+
+};
+
+// ===== FUNÇÃO PARA MOSTRAR CONTEÚDO =====
+
+function showContent(topic){
+
+document.getElementById("contentText").innerHTML = `
+<h2>${contents[topic].title}</h2>
+${contents[topic].text}
+`;
+
+document.getElementById("contentImg").src = contents[topic].image;
+document.getElementById("contentImg").alt = contents[topic].imageAlt;
+document.getElementById("contentCaption").innerText = contents[topic].imageCaption;
+
+window.scrollTo({
+top:900,
+behavior:'smooth'
+});
+
+}
+
+// ===== FUNÇÃO PARA ABRIR MODAL DO AUTOR (COM IMAGEM) =====
+
+function openAuthor(author){
+
+document.getElementById("modalBox").classList.remove("no-image");
+document.getElementById("modalImg").style.display = "block";
+
+document.getElementById("authorModal").style.display = "flex";
+
+document.getElementById("modalImg").src = authors[author].image;
+document.getElementById("modalImg").alt = authors[author].imageAlt;
+
+document.getElementById("modalTitle").innerText = authors[author].name;
+
+document.getElementById("modalText").innerText = authors[author].text;
+
+}
+
+// ===== FUNÇÃO PARA ABRIR MODAL DO TEMA (COM CAPA DE OBRA) =====
+
+function openTheme(theme){
+
+document.getElementById("modalBox").classList.remove("no-image");
+document.getElementById("modalImg").style.display = "block";
+
+document.getElementById("authorModal").style.display = "flex";
+
+document.getElementById("modalImg").src = themes[theme].image;
+document.getElementById("modalImg").alt = themes[theme].imageAlt;
+
+document.getElementById("modalTitle").innerText = themes[theme].name;
+
+document.getElementById("modalText").innerText = themes[theme].text;
+
+}
+
+// ===== FUNÇÃO PARA ABRIR MODAL INFORMATIVO (SEM IMAGEM) =====
+
+function openInfo(info){
+
+document.getElementById("modalBox").classList.add("no-image");
+document.getElementById("modalImg").style.display = "none";
+
+document.getElementById("authorModal").style.display = "flex";
+
+document.getElementById("modalTitle").innerText = infos[info].name;
+
+document.getElementById("modalText").innerText = infos[info].text;
+
+}
+
+// ===== FUNÇÃO PARA FECHAR MODAL =====
+
+function closeModal(){
+document.getElementById("authorModal").style.display = "none";
+}
+
+// ===== FECHAR MODAL CLICANDO FORA =====
+
+window.addEventListener("click",(e)=>{
+
+const modal = document.getElementById("authorModal");
+
+if(e.target === modal){
+modal.style.display = "none";
+}
+
+});
+
+// ===== MENU MOBILE =====
+
+const hamburger = document.getElementById("hamburger");
+const menu = document.getElementById("menu");
+
+hamburger.addEventListener("click",()=>{
+menu.classList.toggle("active");
+});
+
+</script>
+
+</body>
+</html>
