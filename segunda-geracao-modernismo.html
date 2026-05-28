@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>2ª Geração Modernista</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    scroll-behavior:smooth;
+}
+
+:root{
+    --bg:#020617;
+    --card:#0f172a;
+    --primary:#22c55e;
+    --secondary:#38bdf8;
+    --text:#f8fafc;
+    --muted:#cbd5e1;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#020617,#0f172a,#111827);
+    color:var(--text);
+    overflow-x:hidden;
+}
+
+/* ===== NAVBAR ===== */
+
+header{
+    position:fixed;
+    width:100%;
+    top:0;
+    z-index:999;
+    backdrop-filter:blur(10px);
+    background:rgba(2,6,23,.85);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 25px;
+}
+
+.logo{
+    font-size:1.3rem;
+    font-weight:bold;
+    color:var(--primary);
+}
+
+.menu{
+    display:flex;
+    gap:10px;
+}
+
+.menu button{
+    border:none;
+    background:none;
+    color:white;
+    cursor:pointer;
+    padding:10px 14px;
+    border-radius:10px;
+    transition:.3s;
+    font-size:.95rem;
+}
+
+.menu button:hover{
+    background:var(--primary);
+    transform:translateY(-2px);
+}
+
+.hamburger{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    cursor:pointer;
+}
+
+.hamburger span{
+    width:25px;
+    height:3px;
+    background:white;
+    border-radius:5px;
+}
+
+/* ===== HERO ===== */
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:140px 20px 80px;
+    position:relative;
+}
+
+.hero::before{
+    content:'';
+    position:absolute;
+    width:400px;
+    height:400px;
+    background:var(--primary);
+    filter:blur(150px);
+    opacity:.15;
+    top:-100px;
+    left:-100px;
+}
+
+.hero::after{
+    content:'';
+    position:absolute;
+    width:300px;
+    height:300px;
+    background:var(--secondary);
+    filter:blur(120px);
+    opacity:.12;
+    bottom:0;
+    right:0;
+}
+
+.hero-content{
+    max-width:1000px;
+    z-index:2;
+    animation:fadeUp 1s ease;
+}
+
+.hero h1{
+    font-size:4.5rem;
+    margin-bottom:25px;
+    background:linear-gradient(to right,var(--primary),var(--secondary));
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    color:var(--muted);
+    line-height:1.9;
+    font-size:1.2rem;
+}
+
+.hero img{
+    width:100%;
+    max-width:850px;
+    margin-top:45px;
+    border-radius:25px;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+    transition:.5s;
+}
+
+.hero img:hover{
+    transform:scale(1.02);
+}
+
+/* ===== CONTAINER ===== */
+
+.container{
+    width:90%;
+    max-width:1400px;
+    margin:auto;
+    padding-bottom:80px;
+}
+
+/* ===== CONTENT ===== */
+
+.content-box{
+    margin-top:40px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:30px;
+    padding:45px;
+    display:flex;
+    gap:40px;
+    align-items:flex-start;
+    animation:fade .5s ease;
+    position:relative;
+    overflow:hidden;
+}
+
+.content-box::before{
+    content:'';
+    position:absolute;
+    width:250px;
+    height:250px;
+    background:var(--secondary);
+    opacity:.08;
+    border-radius:50%;
+    top:-80px;
+    right:-80px;
+}
+
+.left{
+    flex:1.2;
+    z-index:2;
+}
+
+.right{
+    flex:1;
+    z-index:2;
+}
+
+.right img{
+    width:100%;
+    border-radius:20px;
+    box-shadow:0 15px 40px rgba(0,0,0,.5);
+    transition:.5s;
+}
+
+.right img:hover{
+    transform:scale(1.03);
+}
+
+.content-box h2{
+    font-size:2.4rem;
+    margin-bottom:25px;
+    color:var(--secondary);
+}
+
+.content-box p{
+    color:var(--muted);
+    line-height:1.9;
+    margin-bottom:18px;
+    text-align:justify;
+}
+
+.highlight{
+    background:rgba(34,197,94,.15);
+    border-left:4px solid var(--primary);
+    padding:18px;
+    border-radius:12px;
+    margin:25px 0;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-top:25px;
+}
+
+.info-card{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    padding:22px;
+    border-radius:18px;
+    transition:.4s;
+}
+
+.info-card:hover{
+    transform:translateY(-8px);
+    background:rgba(255,255,255,.08);
+}
+
+.info-card h3{
+    margin-bottom:12px;
+    color:var(--primary);
+}
+
+/* ===== TIMELINE ===== */
+
+.timeline{
+    margin-top:30px;
+    border-left:3px solid var(--primary);
+    padding-left:20px;
+}
+
+.timeline-item{
+    margin-bottom:30px;
+    animation:fadeUp 1s ease;
+}
+
+.timeline-item h4{
+    color:var(--secondary);
+    margin-bottom:8px;
+}
+
+/* ===== FOOTER ===== */
+
+footer{
+    padding:40px 20px;
+    text-align:center;
+    color:#94a3b8;
+    border-top:1px solid rgba(255,255,255,.1);
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+    }
+    to{
+        opacity:1;
+    }
+}
+
+/* ===== RESPONSIVO ===== */
+
+@media(max-width:1000px){
+
+    .content-box{
+        flex-direction:column;
+    }
+
+    .hero h1{
+        font-size:3rem;
+    }
+
+    .menu{
+        position:absolute;
+        top:80px;
+        right:-100%;
+        flex-direction:column;
+        background:#020617;
+        width:270px;
+        padding:20px;
+        transition:.4s;
+        border-left:1px solid rgba(255,255,255,.1);
+    }
+
+    .menu.active{
+        right:0;
+    }
+
+    .hamburger{
+        display:flex;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+
+<header>
+
+<nav class="nav">
+
+<div class="logo">Modernismo 1930</div>
+
+<div class="menu" id="menu">
+
+<button onclick="showContent('intro')">Introdução</button>
+<button onclick="showContent('segunda')">2ª Geração</button>
+<button onclick="showContent('contexto')">Contexto</button>
+<button onclick="showContent('caracteristicas')">Características</button>
+<button onclick="showContent('prosa')">Prosa</button>
+<button onclick="showContent('poesia')">Poesia</button>
+<button onclick="showContent('temas')">Temas</button>
+<button onclick="showContent('diferenca')">Diferenças</button>
+<button onclick="showContent('legado')">Legado</button>
+
+</div>
+
+<div class="hamburger" id="hamburger">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+</nav>
+
+</header>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>2ª Geração Modernista</h1>
+
+<p>
+A fase mais madura do Modernismo brasileiro transformou a literatura em uma poderosa
+ferramenta de crítica social, análise psicológica e valorização da identidade nacional.
+</p>
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/9/97/Tarsila_do_Amaral_-_Abaporu.jpg">
+
+</div>
+
+</section>
+
+<!-- CONTAINER -->
+
+<section class="container">
+
+<div class="content-box">
+
+<div class="left" id="contentText">
+
+<h2>Introdução ao Modernismo</h2>
+
+<p>
+O Modernismo brasileiro surgiu oficialmente em 1922 com a Semana de Arte Moderna,
+propondo uma ruptura com os modelos artísticos tradicionais.
+</p>
+
+<div class="highlight">
+A literatura passou a valorizar o cotidiano, a linguagem popular
+e os problemas sociais brasileiros.
+</div>
+
+<p>
+A Segunda Geração Modernista aprofundou essas mudanças, criando obras mais maduras,
+críticas e voltadas para a realidade do país.
+</p>
+
+<div class="cards">
+
+<div class="info-card">
+<h3>Liberdade</h3>
+<p>Rompimento com padrões antigos e linguagem formal.</p>
+</div>
+
+<div class="info-card">
+<h3>Identidade</h3>
+<p>Valorização da cultura e da realidade brasileira.</p>
+</div>
+
+<div class="info-card">
+<h3>Crítica</h3>
+<p>Denúncia das desigualdades sociais do país.</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="right">
+<img id="contentImg" src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Semana_de_Arte_Moderna.jpg">
+</div>
+
+</div>
+
+</section>
+
+<footer>
+© 2026 | Segunda Geração Modernista Brasileira
+</footer>
+
+<script>
+
+const contents = {
+
+intro:{
+title:"Introdução ao Modernismo",
+
+image:"https://upload.wikimedia.org/wikipedia/commons/0/0f/Semana_de_Arte_Moderna.jpg",
+
+text:`
+
+<p>
+O Modernismo revolucionou a arte brasileira ao romper com os modelos clássicos europeus.
+Os artistas buscavam uma arte mais livre, nacional e conectada com a realidade do Brasil.
+</p>
+
+<div class="highlight">
+A Semana de Arte Moderna de 1922 marcou o início dessa transformação cultural.
+</div>
+
+<p>
+Os escritores modernistas passaram a usar linguagem coloquial,
+humor, ironia e temas do cotidiano.
+</p>
+
+<div class="cards">
+
+<div class="info-card">
+<h3>Semana de 22</h3>
+<p>Marco inicial do Modernismo brasileiro.</p>
+</div>
+
+<div class="info-card">
+<h3>Ruptura</h3>
+<p>Quebra dos modelos tradicionais da literatura.</p>
+</div>
+
+<div class="info-card">
+<h3>Nacionalismo</h3>
+<p>Busca por identidade cultural brasileira.</p>
+</div>
+
+</div>
+`
+},
+
+segunda:{
+title:"O que foi a Segunda Geração",
+
+image:"https://upload.wikimedia.org/wikipedia/commons/5/5f/Graciliano_Ramos%2C_1940.jpg",
+
+text:`
+
+<p>
+A Segunda Geração Modernista aconteceu entre 1930 e 1945 e ficou conhecida
+como a fase de consolidação do Modernismo.
+</p>
+
+<p>
+Os autores deixaram de focar apenas na inovação estética e passaram a produzir
+obras mais profundas e socialmente engajadas.
+</p>
+
+<div class="highlight">
+A literatura virou instrumento de denúncia social e análise da condição humana.
+</div>
+
+<div class="timeline">
+
+<div class="timeline-item">
+<h4>1930</h4>
+<p>Ascensão da literatura regionalista e social.</p>
+</div>
+
+<div class="timeline-item">
+<h4>1937</h4>
+<p>Estado Novo fortalece censura e tensão política.</p>
+</div>
+
+<div class="timeline-item">
+<h4>1945</h4>
+<p>Fim da geração com novas tendências literárias.</p>
+</div>
+
+</div>
+`
+},
+
+contexto:{
+title:"Contexto Histórico",
+
+image:"https://upload.wikimedia.org/wikipedia/commons/c/c3/Getulio_Vargas_%281930%29.jpg",
+
+text:`
+
+<p>
+A Segunda Geração foi influenciada por crises políticas e econômicas.
+A quebra da Bolsa de Nova Iorque em 1929 afetou fortemente o Brasil.
+</p>
+
+<p>
+Ao mesmo tempo, o país vivia a Era Vargas, marcada por centralização política,
+censura e repressão.
+</p>
+
+<div class="cards">
+
+<div class="info-card">
+<h3>Crise de 1929</h3>
+<p>Desemprego e queda da economia cafeeira.</p>
+</div>
+
+<div class="info-card">
+<h3>Era Vargas</h3>
+<p>Transformações políticas e sociais no Brasil.</p>
+</div>
+
+<div class="info-card">
+<h3>2ª Guerra</h3>
+<p>Influenciou temas de medo e insegurança.</p>
+</div>
+
+</div>
+`
+},
+
+caracteristicas:{
+title:"Características da Geração",
+
+image:"https://upload.wikimedia.org/wikipedia/commons/1/1e/Candido_Portinari_-_Retirantes.jpg",
+
+text:`
+
+<p>
+A Segunda Geração Modernista apresentou amadurecimento literário,
+forte regionalismo e preocupação social.
+</p>
+
+<div class="highlight">
+Os autores retratavam seca, pobreza, desigualdade
+e conflitos psicológicos humanos.
+</div>
+
+<div class="cards">
+
+<div class="info-card">
+<h3>Regionalismo</h3>
+<p>Foco no Nordeste brasileiro.</p>
+</div>
+
+<div class="info-card">
+<h3>Linguagem</h3>
+<p>Mais simples e próxima da fala popular.</p>
+</div>
+
+<div class="info-card">
+<h3>Crítica Social</h3>
+<p>Denúncia da exploração e injustiça.</p>
+</div>
+
+<div class="info-card">
+<h3>Psicológico</h3>
+<p>Análise profunda dos personagens.</p>
+</div>
+
+</div>
+`
+},
+
+prosa:{
+title:"Autores da Prosa",
+
+image:"https://upload.wikimedia.org/wikipedia/commons/f/f8/Jorge_Amado_1967.jpg",
+
+text:`
+
+<p>
+Os autores da prosa modernista exploraram problemas sociais brasileiros,
+principalmente no Nordeste.
+</p>
+
+<div class="cards">
+
+<div class="info-card">
+<h3>Graciliano Ramos</h3>
+<p><strong>Vidas Secas</strong> e <strong>São Bernardo</strong>.
+Linguagem seca e crítica social.</p>
+</div>
+
+<div class="info-card">
+<h3>Rachel de Queiroz</h3>
+<p><strong>O Quinze</strong>.
+Retratou a seca e a condição feminina.</p>
+</div>
+
+<div class="info-card">
+<h3>Jorge Amado</h3>
+<p><strong>Capitães da Areia</strong>.
+Valorização da cultura popular.</p>
+</div>
+
+<div class="info-card">
+<h3>José Lins</h3>
+<p><strong>Menino de Engenho</strong>.
+Decadência dos engenhos nordestinos.</p>
+</div>
+
+</div>
+`
+},
+
+poesia:{
+title:"Autores da Poesia",
+
+image:"https://upload.wikimedia.org/wikipedia/commons/1/1f/Carlos_Drummond_de_Andrade_1987.jpg",
+
+text:`
+
+<p>
+A poesia da geração de 1930 tornou-se mais reflexiva,
+existencial e socialmente crítica.
+</p>
+
+<div class="cards">
+
+<div class="info-card">
+<h3>Drummond</h3>
+<p><strong>A Rosa do Povo</strong>.
+Ironia, crítica e cotidiano.</p>
+</div>
+
+<div class="info-card">
+<h3>Cecília Meireles</h3>
+<p><strong>Viagem</strong>.
+Musicalidade e reflexão filosófica.</p>
+</div>
+
+<div class="info-card">
+<h3>Vinícius</h3>
+<p><strong>Sonetos e Baladas</strong>.
+Amor e musicalidade poética.</p>
+</div>
+
+</div>
+
+<div class="highlight">
+A poesia aproximou literatura e cotidiano,
+criando textos mais humanos e universais.
+</div>
+`
+},
+
+temas:{
+title:"Principais Temas",
+
+image:"https://upload.wikimedia.org/wikipedia/commons/e/e8/Retirantes_Portinari.jpg",
+
+text:`
+
+<div class="cards">
+
+<div class="info-card">
+<h3>Seca</h3>
+<p>Sobrevivência e sofrimento nordestino.</p>
+</div>
+
+<div class="info-card">
+<h3>Pobreza</h3>
+<p>Desigualdade e exclusão social.</p>
+</div>
+
+<div class="info-card">
+<h3>Conflitos</h3>
+<p>Angústia e solidão humana.</p>
+</div>
+
+<div class="info-card">
+<h3>Amor</h3>
+<p>Sentimentos e relações humanas.</p>
+</div>
+
+</div>
+
+<p>
+Os temas sociais conviviam com reflexões existenciais,
+criando uma literatura mais profunda.
+</p>
+`
+},
+
+diferenca:{
+title:"Diferença entre 1ª e 2ª Geração",
+
+image:"https://upload.wikimedia.org/wikipedia/commons/7/73/Mario_de_Andrade_1928.jpg",
+
+text:`
+
+<p>
+A Primeira Geração focava na ruptura estética e na experimentação artística.
+Já a Segunda Geração amadureceu o movimento.
+</p>
+
+<div class="cards">
+
+<div class="info-card">
+<h3>1ª Geração</h3>
+<p>Revolução estética, ironia e liberdade artística.</p>
+</div>
+
+<div class="info-card">
+<h3>2ª Geração</h3>
+<p>Crítica social, regionalismo e análise psicológica.</p>
+</div>
+
+</div>
+
+<div class="highlight">
+Enquanto a primeira queria destruir modelos antigos,
+a segunda queria compreender e denunciar a realidade brasileira.
+</div>
+`
+},
+
+legado:{
+title:"Importância e Legado",
+
+image:"https://upload.wikimedia.org/wikipedia/commons/3/3f/Biblioteca_Nacional_Brasil.jpg",
+
+text:`
+
+<p>
+A Segunda Geração Modernista consolidou a literatura brasileira moderna
+e influenciou gerações futuras.
+</p>
+
+<div class="cards">
+
+<div class="info-card">
+<h3>Clássicos</h3>
+<p>Produziu obras fundamentais da literatura nacional.</p>
+</div>
+
+<div class="info-card">
+<h3>Regionalismo</h3>
+<p>Valorizou culturas e regiões brasileiras.</p>
+</div>
+
+<div class="info-card">
+<h3>Crítica</h3>
+<p>Fortaleceu a literatura social no Brasil.</p>
+</div>
+
+<div class="info-card">
+<h3>Influência</h3>
+<p>Inspirou escritores contemporâneos.</p>
+</div>
+
+</div>
+
+<div class="highlight">
+Autores como Graciliano Ramos e Drummond tornaram-se referências eternas da cultura brasileira.
+</div>
+`
+}
+
+};
+
+function showContent(topic){
+
+document.getElementById("contentText").innerHTML = `
+<h2>${contents[topic].title}</h2>
+${contents[topic].text}
+`;
+
+document.getElementById("contentImg").src = contents[topic].image;
+
+window.scrollTo({
+top:900,
+behavior:'smooth'
+});
+
+}
+
+/* MENU MOBILE */
+
+const hamburger = document.getElementById("hamburger");
+const menu = document.getElementById("menu");
+
+hamburger.addEventListener("click",()=>{
+menu.classList.toggle("active");
+});
+
+</script>
+
+</body>
+</html>
